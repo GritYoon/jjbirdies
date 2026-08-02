@@ -236,18 +236,39 @@ section{position:relative;}
 footer{padding:50px 24px;text-align:center;background:var(--fairway-2);}
 footer .foot-mark{font-family:'Fraunces',serif;font-style:italic;color:var(--gold-soft);font-size:14px;margin-bottom:8px;}
 footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
+
+/* 언어 스위처 (고정) */
+.langbar-fixed{
+  position:fixed;top:14px;right:14px;z-index:200;display:flex;gap:4px;
+  background:rgba(21,45,31,.88);backdrop-filter:blur(4px);
+  padding:5px;border-radius:99px;border:1px solid var(--line);
+}
+.langbar-fixed button{
+  font-family:'Space Mono',monospace;font-size:10.5px;background:transparent;border:none;
+  color:rgba(245,240,225,.55);padding:5px 10px;border-radius:99px;cursor:pointer;
+}
+.langbar-fixed button.on{background:var(--gold);color:var(--ink);font-weight:700;}
+
 </style>
 </head>
 <body>
+
+<div class="langbar-fixed">
+  <button data-lang="ko" onclick="setLang('ko')">한국어</button>
+  <button data-lang="en" onclick="setLang('en')">EN</button>
+  <button data-lang="zh" onclick="setLang('zh')">中文</button>
+</div>
 
 <!-- ============ 히어로 ============ -->
 <section class="hero">
   <div class="hero-mark">Jiwan &amp; Jiseok — Since 2026</div>
   <h1><em>Fly, Birdie.</em></h1>
-  <p>지완이가 그린 위에서 버디를 잡을 때마다, 자신의 용돈에서 스스로 기부합니다.<br>
-  성적을 위한 골프가 아니라, 나눔을 위한 골프. JJ Birdies는 그렇게 시작됐어요.</p>
+  <p id="heroPara">지완이가 버디를 잡을 때마다,<br>
+  자신의 용돈에서 스스로 기부합니다.<br>
+  성적을 위한 골프가 아니라, 나눔을 위한 골프.<br>
+  JJ Birdies는 그렇게 시작됐어요.</p>
   <div class="hero-tag"><span class="dot"></span> JJ BIRDIES · FLY, BIRDIE.</div>
-  <div class="hero-photo-slot"><img src="jj-hero-photo.jpg" alt="지완이, AJGA 주니어 골프 대회에서"></div>
+  <div class="hero-photo-slot"><img id="heroPhotoImg" src="jj-hero-photo.jpg" alt="지완이, AJGA 주니어 골프 대회에서"></div>
   <div class="scroll-cue">↓ scroll</div>
 </section>
 
@@ -256,25 +277,25 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap story-grid">
     <div class="reveal">
       <div class="eyebrow" style="color:var(--gold-soft);margin-bottom:14px;display:block;">Why we started</div>
-      <h2>골프가<br>가르쳐준 것</h2>
+      <h2 id="storyH2">골프가<br>가르쳐준 것</h2>
     </div>
     <div class="story-body reveal">
-      <p>저는 초등학교에 들어가기 전부터 봉사를 해왔어요. 홈리스 분들을 위한 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요. 대통령 봉사상도 여러 번 받을 만큼, 오래 이어온 일이었어요. 그땐 부모님이 하자고 하셔서 따라간 거였어요.</p>
-      <p>그런데 이상하게도, 제가 가장 오래 해온 골프만큼은 늘 저 혼자만을 위한 것이었어요. 성적, 순위, 대학 — 결국 다 저를 향한 숫자였죠.</p>
-      <p>고등학생이 되면서 처음으로 생각했어요. 이번엔 누가 시켜서가 아니라, 제가 스스로 뭔가를 찾아서 남을 돕고 싶다고요. 그동안 봉사를 통해 배운 걸, 제가 가장 오래 해온 골프 안으로 가져오기로 했어요. 그렇게 시작한 게, 버디를 할 때마다 제 용돈에서 정해진 금액을 스스로 기부하는 거예요.</p>
-      <p>그동안 같이 봉사를 해온 동생 지석이에게도 같이 하자고 했어요. 지석이도 흔쾌히 함께하기로 했고요. 형제가 각자의 방식으로 하나의 마음을 만들어가는 프로젝트, 그것이 JJ Birdies예요.</p>
+      <p id="storyP1">저는 초등학교에 들어가기 전부터 봉사를 해왔어요. 홈리스 분들을 위한 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요. 대통령 봉사상도 여러 번 받을 만큼, 오래 이어온 일이었어요. 그땐 부모님이 하자고 하셔서 따라간 거였어요.</p>
+      <p id="storyP2">그런데 이상하게도, 제가 가장 오래 해온 골프만큼은 늘 저 혼자만을 위한 것이었어요. 성적, 순위, 대학 — 결국 다 저를 향한 숫자였죠.</p>
+      <p id="storyP3">고등학생이 되면서 처음으로 생각했어요. 이번엔 누가 시켜서가 아니라, 제가 스스로 뭔가를 찾아서 남을 돕고 싶다고요. 그동안 봉사를 통해 배운 걸, 제가 가장 오래 해온 골프 안으로 가져오기로 했어요. 그렇게 시작한 게, 버디를 할 때마다 제 용돈에서 정해진 금액을 스스로 기부하는 거예요.</p>
+      <p id="storyP4">그동안 같이 봉사를 해온 동생 지석이에게도 같이 하자고 했어요. 지석이도 흔쾌히 함께하기로 했고요. 형제가 각자의 방식으로 하나의 마음을 만들어가는 프로젝트, 그것이 JJ Birdies예요.</p>
       <div class="pull">
-        "잘 치는 것보다, 잘 나누는 사람이 되고 싶어요."
-        <small>— 지완</small>
+        <span id="pullQuote">"잘 치는 것보다, 잘 나누는 사람이 되고 싶어요."</span>
+        <small>— Jiwan</small>
       </div>
       <div class="story-photos-grid">
         <div>
-          <img class="story-photo" src="jj-golf-start.jpg" alt="지완이가 골프를 처음 시작했을 때">
-          <div class="story-photo-cap">골프를 처음 시작했을 때</div>
+          <img class="story-photo" id="golfStartImg" src="jj-golf-start.jpg" alt="지완이가 골프를 처음 시작했을 때">
+          <div class="story-photo-cap" id="photoCap1">골프를 처음 시작했을 때</div>
         </div>
         <div>
-          <img class="story-photo" src="jj-story-photo.jpg" alt="지완이의 봉사활동 기록">
-          <div class="story-photo-cap">초등학교 입학 전부터 이어온 봉사의 기록들</div>
+          <img class="story-photo" id="storyPhotoImg" src="jj-story-photo.jpg" alt="지완이의 봉사활동 기록">
+          <div class="story-photo-cap" id="photoCap2">초등학교 입학 전부터 이어온 봉사의 기록들</div>
         </div>
       </div>
     </div>
@@ -286,26 +307,26 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">The Rules</div>
-      <h2>버디 하나, 마음 하나</h2>
+      <h2 id="rulesH2">버디 하나, 마음 하나</h2>
     </div>
     <div class="rule-cards reveal">
       <div class="rule-card">
         <div class="par">HOLE · BIRDIE</div>
-        <h3>버디</h3>
-        <p>한 홀에서 파보다 한 타 적게 치면, 그 순간의 기쁨을 기부로 나눕니다.</p>
-        <div class="amt tbd">금액은 곧 정해서 공개할게요</div>
+        <h3 id="ruleBirdieTitle">버디</h3>
+        <p id="ruleBirdieDesc">한 홀에서 파보다 한 타 적게 치면, 그 순간의 기쁨을 기부로 나눕니다.</p>
+        <div class="amt tbd" id="ruleBirdieAmt">금액은 곧 정해서 공개할게요</div>
       </div>
       <div class="rule-card eagle">
         <div class="par">HOLE · EAGLE+</div>
-        <h3>이글 이상</h3>
-        <p>더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.</p>
-        <div class="amt tbd">배수는 곧 공개할게요</div>
+        <h3 id="ruleEagleTitle">이글 이상</h3>
+        <p id="ruleEagleDesc">더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.</p>
+        <div class="amt tbd" id="ruleEagleAmt">배수는 곧 공개할게요</div>
       </div>
       <div class="rule-card">
         <div class="par">HOLE · ACE</div>
-        <h3>홀인원</h3>
-        <p>평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.</p>
-        <div class="amt tbd">특별 기부, 준비 중</div>
+        <h3 id="ruleAceTitle">홀인원</h3>
+        <p id="ruleAceDesc">평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.</p>
+        <div class="amt tbd" id="ruleAceAmt">특별 기부, 준비 중</div>
       </div>
     </div>
   </div>
@@ -316,20 +337,20 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">Season Tracker</div>
-      <h2>지금까지의 기록</h2>
+      <h2 id="trackerH2">지금까지의 기록</h2>
     </div>
-    <p class="note reveal">시즌이 시작되면 이 페이지에서 버디 수와 기부액이 실시간으로 업데이트됩니다.</p>
+    <p class="note reveal" id="trackerNote">시즌이 시작되면 이 페이지에서 버디 수와 기부액이 실시간으로 업데이트됩니다.</p>
 
     <div class="stat-row reveal">
-      <div class="stat"><div class="num" id="statBirdies">0</div><div class="lbl">이번 시즌 버디</div></div>
-      <div class="stat"><div class="num" id="statEagles">0</div><div class="lbl">이번 시즌 이글+</div></div>
-      <div class="stat"><div class="num" id="statTotal">준비중</div><div class="lbl">누적 기부액</div></div>
+      <div class="stat"><div class="num" id="statBirdies">0</div><div class="lbl" id="statBirdiesLbl">이번 시즌 버디</div></div>
+      <div class="stat"><div class="num" id="statEagles">0</div><div class="lbl" id="statEaglesLbl">이번 시즌 이글+</div></div>
+      <div class="stat"><div class="num" id="statTotal">준비중</div><div class="lbl" id="statTotalLbl">누적 기부액</div></div>
     </div>
 
     <div class="reveal">
-      <div class="scorecard-label"><span>예시 라운드 · HOLE 1–9</span><span>이렇게 기록돼요</span></div>
+      <div class="scorecard-label"><span id="scLabel1">예시 라운드 · HOLE 1–9</span><span id="scLabel2">이렇게 기록돼요</span></div>
       <div class="scorecard" id="scorecard"></div>
-      <div class="scorecard-caption">🟡 버디 · 🔴 이글 이상 — 실제 시즌 데이터로 교체될 예시입니다.</div>
+      <div class="scorecard-caption" id="scCaption">🟡 버디 · 🔴 이글 이상 — 실제 시즌 데이터로 교체될 예시입니다.</div>
     </div>
   </div>
 </section>
@@ -339,10 +360,10 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow" style="color:var(--gold-soft);">Where it goes</div>
-      <h2>기부처는 함께 정해요</h2>
-      <p>지완이가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정합니다.<br>
+      <h2 id="causeH2">기부처는 함께 정해요</h2>
+      <p id="causeP">지완이가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정합니다.<br>
       정해지는 대로 이곳에서 소개할게요.</p>
-      <div class="cause-badge">기부처 공개 예정</div>
+      <div class="cause-badge" id="causeBadge">기부처 공개 예정</div>
     </div>
   </div>
 </section>
@@ -352,16 +373,16 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap">
     <div class="b-grid">
       <div class="b-card reveal">
-        <div class="photo-slot avatar-slot"><img src="jiwan_avatar_test.jpg" alt="지완" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+        <div class="photo-slot avatar-slot"><img id="jiwanAvatarImg" src="jiwan_avatar_test.jpg" alt="지완" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
         <div class="role">HOLE PLAYER</div>
         <h3>지완</h3>
-        <p>고등학교에 올라가며 본격적으로 주니어 골프를 시작했어요. 스코어보다 스코어가 만드는 의미를 먼저 생각하는 골프를 하려고 합니다.</p>
+        <p id="jiwanDesc">고등학교에 올라가며 본격적으로 주니어 골프를 시작했어요. 스코어보다 스코어가 만드는 의미를 먼저 생각하는 골프를 하려고 합니다.</p>
       </div>
       <div class="b-card reveal">
-        <div class="photo-slot avatar-slot"><img src="jiseok_avatar_test.jpg" alt="지석" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+        <div class="photo-slot avatar-slot"><img id="jiseokAvatarImg" src="jiseok_avatar_test.jpg" alt="지석" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
         <div class="role">STORYTELLER</div>
         <h3>지석</h3>
-        <p>형의 라운드를 기록하고, 이 프로젝트를 사람들에게 알리는 일을 맡고 있어요. 콘텐츠와 홍보로 형의 버디를 더 멀리 전합니다.</p>
+        <p id="jiseokDesc">형의 라운드를 기록하고, 이 프로젝트를 사람들에게 알리는 일을 맡고 있어요. 콘텐츠와 홍보로 형의 버디를 더 멀리 전합니다.</p>
       </div>
     </div>
   </div>
@@ -372,8 +393,8 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
   <div class="wrap">
     <div class="section-head reveal">
       <div class="eyebrow">Join in</div>
-      <h2>같이 응원해주세요</h2>
-      <p>인스타그램을 팔로우하면 지완이의 라운드와 기부 소식을 가장 먼저 볼 수 있어요.</p>
+      <h2 id="joinH2">같이 응원해주세요</h2>
+      <p id="joinP">인스타그램을 팔로우하면 지완이의 라운드와 기부 소식을 가장 먼저 볼 수 있어요.</p>
       <div class="cta-row">
         <a class="btn primary" href="#" id="igLink">📷 인스타그램 팔로우</a>
         <a class="btn ghost" href="#" id="joinLink">알림 받기</a>
@@ -391,16 +412,135 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
 <script>
 /* ============================================================
    편집 가이드 (안디님 확인용)
-   - 버디/이글 기부 금액 정해지면: .rule-card .amt 의 텍스트와 class="tbd" 제거
+   - 버디/이글 기부 금액 정해지면: .rule-card .amt 의 텍스트와 class="tbd" 제거 (LANG의 ruleBirdieAmt 등도 같이 수정)
    - 시즌 통계: 아래 SEASON 값을 실제 데이터로 교체 (또는 Firebase 연동)
-   - 기부처 정해지면: .cause 섹션의 문구 교체
+   - 기부처 정해지면: causeH2/causeP/causeBadge 문구 교체
    - 인스타 링크: #igLink, #joinLink 의 href 교체
    ============================================================ */
 var SEASON = { birdies: 0, eagles: 0, totalDonated: null }; // totalDonated: null이면 '준비중' 표시
 
+var LANG = {
+  ko: {
+    heroPara: '지완이가 버디를 잡을 때마다,<br>자신의 용돈에서 스스로 기부합니다.<br>성적을 위한 골프가 아니라, 나눔을 위한 골프.<br>JJ Birdies는 그렇게 시작됐어요.',
+    storyH2: '골프가<br>가르쳐준 것',
+    storyP1: '저는 초등학교에 들어가기 전부터 봉사를 해왔어요. 홈리스 분들을 위한 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요. 대통령 봉사상도 여러 번 받을 만큼, 오래 이어온 일이었어요. 그땐 부모님이 하자고 하셔서 따라간 거였어요.',
+    storyP2: '그런데 이상하게도, 제가 가장 오래 해온 골프만큼은 늘 저 혼자만을 위한 것이었어요. 성적, 순위, 대학 — 결국 다 저를 향한 숫자였죠.',
+    storyP3: '고등학생이 되면서 처음으로 생각했어요. 이번엔 누가 시켜서가 아니라, 제가 스스로 뭔가를 찾아서 남을 돕고 싶다고요. 그동안 봉사를 통해 배운 걸, 제가 가장 오래 해온 골프 안으로 가져오기로 했어요. 그렇게 시작한 게, 버디를 할 때마다 제 용돈에서 정해진 금액을 스스로 기부하는 거예요.',
+    storyP4: '그동안 같이 봉사를 해온 동생 지석이에게도 같이 하자고 했어요. 지석이도 흔쾌히 함께하기로 했고요. 형제가 각자의 방식으로 하나의 마음을 만들어가는 프로젝트, 그것이 JJ Birdies예요.',
+    pullQuote: '"잘 치는 것보다, 잘 나누는 사람이 되고 싶어요."',
+    photoCap1: '골프를 처음 시작했을 때',
+    photoCap2: '초등학교 입학 전부터 이어온 봉사의 기록들',
+    rulesH2: '버디 하나, 마음 하나',
+    ruleBirdieTitle: '버디', ruleBirdieDesc: '한 홀에서 파보다 한 타 적게 치면, 그 순간의 기쁨을 기부로 나눕니다.', ruleBirdieAmt: '금액은 곧 정해서 공개할게요',
+    ruleEagleTitle: '이글 이상', ruleEagleDesc: '더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.', ruleEagleAmt: '배수는 곧 공개할게요',
+    ruleAceTitle: '홀인원', ruleAceDesc: '평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.', ruleAceAmt: '특별 기부, 준비 중',
+    trackerH2: '지금까지의 기록',
+    trackerNote: '시즌이 시작되면 이 페이지에서 버디 수와 기부액이 실시간으로 업데이트됩니다.',
+    statBirdiesLbl: '이번 시즌 버디', statEaglesLbl: '이번 시즌 이글+', statTotalLbl: '누적 기부액', statTotalVal: '준비중',
+    scLabel1: '예시 라운드 · HOLE 1–9', scLabel2: '이렇게 기록돼요',
+    scCaption: '🟡 버디 · 🔴 이글 이상 — 실제 시즌 데이터로 교체될 예시입니다.',
+    causeH2: '기부처는 함께 정해요',
+    causeP: '지완이가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정합니다.<br>정해지는 대로 이곳에서 소개할게요.',
+    causeBadge: '기부처 공개 예정',
+    jiwanDesc: '고등학교에 올라가며 본격적으로 주니어 골프를 시작했어요. 스코어보다 스코어가 만드는 의미를 먼저 생각하는 골프를 하려고 합니다.',
+    jiseokDesc: '형의 라운드를 기록하고, 이 프로젝트를 사람들에게 알리는 일을 맡고 있어요. 콘텐츠와 홍보로 형의 버디를 더 멀리 전합니다.',
+    joinH2: '같이 응원해주세요',
+    joinP: '인스타그램을 팔로우하면 지완이의 라운드와 기부 소식을 가장 먼저 볼 수 있어요.',
+    igLink: '📷 인스타그램 팔로우', joinLink: '알림 받기',
+    altHero: '지완이, AJGA 주니어 골프 대회에서', altGolfStart: '지완이가 골프를 처음 시작했을 때',
+    altStory: '지완이의 봉사활동 기록', altJiwan: '지완', altJiseok: '지석',
+  },
+  en: {
+    heroPara: "Every time Jiwan makes a birdie,<br>he donates from his own allowance.<br>Not golf for the score, but golf for giving.<br>That's how JJ Birdies began.",
+    storyH2: 'What golf<br>taught me',
+    storyP1: "I've been volunteering since before I started elementary school — making breakfast for people experiencing homelessness, planting trees, cleaning beaches, sitting with elders living with Alzheimer's. I did it for so long that I earned the President's Volunteer Service Award more than once. Back then, I just went along because my parents asked me to.",
+    storyP2: "But strangely, golf — the thing I'd done longest of all — was always just for me. Scores, rankings, college. In the end, every number pointed back to myself.",
+    storyP3: "When I became a high schooler, I thought about it for the first time. This time, not because someone told me to, but because I wanted to find my own way to help others. I decided to bring what I'd learned through volunteering into golf, the thing I'd played longest. That's how I started donating a set amount from my own allowance every time I make a birdie.",
+    storyP4: "I asked my younger brother Jiseok, who's volunteered alongside me all this time, to join me. He said yes without hesitation. A project where two brothers build one shared purpose, each in his own way — that's JJ Birdies.",
+    pullQuote: '"I\'d rather become someone who gives well than someone who scores well."',
+    photoCap1: 'When I first started golf',
+    photoCap2: 'A record of service that began before elementary school',
+    rulesH2: 'One birdie, one gift',
+    ruleBirdieTitle: 'Birdie', ruleBirdieDesc: 'When I finish a hole one stroke under par, I share that moment of joy through a donation.', ruleBirdieAmt: 'Amount coming soon',
+    ruleEagleTitle: 'Eagle & up', ruleEagleDesc: 'For rarer moments, I put in a little more heart — donating more than a birdie.', ruleEagleAmt: 'Multiplier coming soon',
+    ruleAceTitle: 'Hole-in-one', ruleAceDesc: 'A moment that might happen only a few times in a lifetime. A hole-in-one comes with an especially big donation.', ruleAceAmt: 'Special gift, coming soon',
+    trackerH2: 'The record so far',
+    trackerNote: "Once the season starts, birdie counts and donation totals will update here in real time.",
+    statBirdiesLbl: 'Birdies this season', statEaglesLbl: 'Eagles+ this season', statTotalLbl: 'Lifetime donated', statTotalVal: 'Coming soon',
+    scLabel1: 'Sample round · Holes 1–9', scLabel2: "This is how it's logged",
+    scCaption: '🟡 Birdie · 🔴 Eagle & up — a sample that will be replaced with real season data.',
+    causeH2: 'Choosing where it goes, together',
+    causeP: "Jiwan proposes candidates, then makes the final decision after talking it over with his parents and mentors.<br>We'll introduce it here as soon as it's decided.",
+    causeBadge: 'Recipient announcement coming soon',
+    jiwanDesc: "Started competing seriously in junior golf once he got to high school. He's trying to play golf that thinks about meaning before score.",
+    jiseokDesc: "Records his brother's rounds and helps spread the word about this project. Through content and outreach, he carries his brother's birdies further.",
+    joinH2: 'Cheer us on',
+    joinP: "Follow on Instagram to be the first to see Jiwan's rounds and donation updates.",
+    igLink: '📷 Follow on Instagram', joinLink: 'Get notified',
+    altHero: 'Jiwan at an AJGA junior golf tournament', altGolfStart: 'When Jiwan first started golf',
+    altStory: "Jiwan's volunteer record", altJiwan: 'Jiwan', altJiseok: 'Jiseok',
+  },
+  zh: {
+    heroPara: '每当 Jiwan 打出一个小鸟球，<br>他都会从自己的零花钱里捐出一笔钱。<br>这不是为了成绩的高尔夫，而是为了分享的高尔夫。<br>JJ Birdies 就是这样开始的。',
+    storyH2: '高尔夫<br>教会我的事',
+    storyP1: '我从上小学之前就开始做志愿服务了——为无家可归的人做早餐、植树、清理海滩、陪伴患有阿尔茨海默病的老人。这件事我坚持了很久，甚至多次获得总统志愿服务奖。那时候，只是因为父母让我去，我就跟着去了。',
+    storyP2: '但奇怪的是，我坚持最久的高尔夫，却始终只是为了我自己。成绩、排名、大学——到头来，所有的数字都只指向我自己。',
+    storyP3: '上高中以后，我第一次认真想了这件事。这一次，不是因为有人让我做，而是我自己想找一件事去帮助别人。我决定把这些年做志愿服务学到的东西，带进我打得最久的高尔夫里。于是我开始了这件事：每打出一个小鸟球，就从自己的零花钱里捐出一笔固定的钱。',
+    storyP4: '我也邀请了一直和我一起做志愿服务的弟弟 Jiseok 加入。Jiseok 爽快地答应了。兄弟俩用各自的方式，共同实现同一份心意，这就是 JJ Birdies。',
+    pullQuote: '"比起打得好，我更想成为一个懂得分享的人。"',
+    photoCap1: '刚开始打高尔夫的时候',
+    photoCap2: '从上小学前就开始的志愿服务记录',
+    rulesH2: '一个小鸟球，一份心意',
+    ruleBirdieTitle: '小鸟球', ruleBirdieDesc: '在一个洞打出比标准杆少一杆的成绩时，我会用捐赠来分享那一刻的喜悦。', ruleBirdieAmt: '金额即将公布',
+    ruleEagleTitle: '老鹰球以上', ruleEagleDesc: '在更特别的时刻，我会投入更多心意——捐出比小鸟球更多的金额。', ruleEagleAmt: '倍数即将公布',
+    ruleAceTitle: '一杆进洞', ruleAceDesc: '这是一生难得几次的时刻。打出一杆进洞时，我会承诺一份格外大的捐赠。', ruleAceAmt: '特别捐赠，敬请期待',
+    trackerH2: '至今为止的记录',
+    trackerNote: '赛季开始后，这个页面会实时更新小鸟球数量和捐赠金额。',
+    statBirdiesLbl: '本赛季小鸟球', statEaglesLbl: '本赛季老鹰球+', statTotalLbl: '累计捐赠', statTotalVal: '敬请期待',
+    scLabel1: '示例回合 · 1–9 洞', scLabel2: '记录方式示例',
+    scCaption: '🟡 小鸟球 · 🔴 老鹰球以上 —— 这是示例，将来会替换为真实赛季数据。',
+    causeH2: '一起决定捐赠去向',
+    causeP: '由 Jiwan 提出候选名单，再和父母及身边的导师商量后做最终决定。<br>一旦确定，我们会在这里介绍。',
+    causeBadge: '捐赠对象即将公布',
+    jiwanDesc: '升入高中后开始认真参加青少年高尔夫比赛。比起成绩，他更想先思考成绩背后的意义。',
+    jiseokDesc: '负责记录哥哥的比赛，并向大家介绍这个项目。通过内容和传播，把哥哥的小鸟球传得更远。',
+    joinH2: '一起为我们加油',
+    joinP: '关注 Instagram，第一时间看到 Jiwan 的比赛和捐赠动态。',
+    igLink: '📷 关注 Instagram', joinLink: '获取通知',
+    altHero: 'Jiwan 在 AJGA 青少年高尔夫锦标赛现场', altGolfStart: 'Jiwan 刚开始打高尔夫的时候',
+    altStory: 'Jiwan 的志愿服务记录', altJiwan: 'Jiwan', altJiseok: 'Jiseok',
+  }
+};
+
+function setLang(lang){
+  localStorage.setItem('jjp_lang', lang);
+  document.querySelectorAll('.langbar-fixed button').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+  var t = LANG[lang];
+  document.getElementById('heroPhotoImg').alt = t.altHero;
+  document.getElementById('golfStartImg').alt = t.altGolfStart;
+  document.getElementById('storyPhotoImg').alt = t.altStory;
+  document.getElementById('jiwanAvatarImg').alt = t.altJiwan;
+  document.getElementById('jiseokAvatarImg').alt = t.altJiseok;
+  Object.keys(t).forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(id === 'statTotalVal'){
+      if(SEASON.totalDonated === null) el.textContent = t.statTotalVal;
+    } else {
+      el.innerHTML = t[id];
+    }
+  });
+}
+
 document.getElementById('statBirdies').textContent = SEASON.birdies;
 document.getElementById('statEagles').textContent = SEASON.eagles;
-document.getElementById('statTotal').textContent = SEASON.totalDonated === null ? '준비중' : ('$' + SEASON.totalDonated.toLocaleString());
+document.getElementById('statTotal').textContent = SEASON.totalDonated === null ? LANG.en.statTotalVal : ('$' + SEASON.totalDonated.toLocaleString());
+
+var initialLang = localStorage.getItem('jjp_lang') || 'en';
+setLang(initialLang);
 
 // 예시 스코어카드 (holes 1-9) — 실제 라운드 데이터 연동 전 데모용
 var demoHoles = [
