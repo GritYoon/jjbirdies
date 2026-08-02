@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JJ Birdies — Tracker</title>
+<meta name="description" content="Fly, Birdie. Jiwan &amp; Jiseok's birdie donation tracker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fairway:#152D1F; --fairway-2:#1E3F2A;
+  --paper:#EFE6D0; --paper-2:#E6D9B8;
+  --ink:#20200f; --ink-soft:#5b5646;
+  --gold:#C89B3C; --gold-soft:#e0c581;
+  --ember:#D0573F;
+  --cream:#F5F0E1;
+  --line:rgba(197,178,120,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  background:var(--fairway); color:var(--cream);
+  font-family:'Noto Sans KR','Noto Sans SC',sans-serif; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Noto Serif KR',serif;}
+.mono{font-family:'Space Mono',monospace;}
+.wrap{max-width:460px;margin:0 auto;padding:20px 18px 60px;}
+
+.langbar{display:flex;justify-content:center;gap:6px;margin-bottom:18px;}
+.langbtn{
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);color:rgba(245,240,225,.55);
+  padding:6px 12px;border-radius:99px;cursor:pointer;
+}
+.langbtn.on{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:700;}
+
+.head{text-align:center;margin-bottom:24px;}
+.head .mark{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:6px;
+}
+.head h1{font-size:24px;font-weight:900;color:var(--cream);}
+
+.pot{
+  background:linear-gradient(180deg,var(--fairway-2),var(--fairway));
+  border:1px solid var(--line);border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:14px;
+}
+.pot .lbl{font-size:11px;letter-spacing:.08em;color:rgba(245,240,225,.5);margin-bottom:8px;}
+.pot .num{font-family:'Space Mono',monospace;font-size:44px;font-weight:700;color:var(--gold);}
+.pot .sub{font-size:12px;color:rgba(245,240,225,.5);margin-top:6px;}
+
+.lifetime{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;
+  padding:14px 18px;margin-bottom:36px;
+}
+.lifetime .lbl{font-size:12px;color:rgba(245,240,225,.6);}
+.lifetime .num{font-family:'Space Mono',monospace;font-size:20px;font-weight:700;color:var(--cream);}
+
+.sect-t{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-soft);
+  margin:0 2px 12px;display:flex;align-items:center;gap:8px;
+}
+.sect-t::after{content:'';flex:1;height:1px;background:var(--line);}
+
+.round{
+  display:flex;gap:12px;background:rgba(255,255,255,.02);border:1px solid var(--line);
+  border-radius:12px;padding:12px;margin-bottom:10px;
+}
+.round .thumb{
+  width:56px;height:56px;border-radius:8px;background:rgba(255,255,255,.04);
+  border:1px dashed var(--line);flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:rgba(245,240,225,.3);overflow:hidden;
+}
+.round .thumb img{width:100%;height:100%;object-fit:cover;}
+.round .info{flex:1;min-width:0;}
+.round .date{font-family:'Space Mono',monospace;font-size:11px;color:rgba(245,240,225,.45);}
+.round .tags{display:flex;gap:6px;margin:5px 0;flex-wrap:wrap;}
+.tag{
+  font-size:11px;padding:2px 8px;border-radius:99px;font-family:'Space Mono',monospace;
+}
+.tag.birdie{background:rgba(200,155,60,.18);color:var(--gold-soft);}
+.tag.eagle{background:rgba(208,87,63,.2);color:#f2a493;}
+.round .course{font-size:12px;color:rgba(245,240,225,.5);}
+.round .amt{
+  font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--gold);
+  align-self:center;white-space:nowrap;
+}
+
+.gift{
+  background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;margin-bottom:14px;
+}
+.gift .media{
+  width:100%;aspect-ratio:4/3;background:rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:center;color:rgba(245,240,225,.3);font-size:13px;
+  text-align:center;padding:16px;
+}
+.gift .media img,.gift .media video{width:100%;height:100%;object-fit:cover;}
+.gift .body{padding:14px 16px;}
+.gift .date{font-family:'Space Mono',monospace;font-size:11px;color:var(--gold-soft);}
+.gift .org{font-size:15px;font-weight:700;color:var(--cream);margin:4px 0 6px;}
+.gift .caption{font-size:13px;line-height:1.6;color:rgba(245,240,225,.7);margin-bottom:8px;}
+.gift .amt{font-family:'Space Mono',monospace;font-size:14px;color:var(--gold);}
+
+.empty{
+  text-align:center;padding:24px;color:rgba(245,240,225,.4);font-size:13px;
+  border:1px dashed var(--line);border-radius:12px;
+}
+
+footer{text-align:center;margin-top:40px;}
+footer .tags2{font-family:'Space Mono',monospace;font-size:11.5px;color:rgba(245,240,225,.4);}
+footer a{color:var(--gold-soft);text-decoration:none;font-size:12px;display:inline-block;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="langbar">
+    <button class="langbtn" data-lang="ko" onclick="setLang('ko')">한국어</button>
+    <button class="langbtn" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="langbtn" data-lang="zh" onclick="setLang('zh')">中文</button>
+  </div>
+
+  <div class="head">
+    <div class="mark">JJ Birdies</div>
+    <h1>Fly, Birdie.</h1>
+  </div>
+
+  <div class="pot">
+    <div class="lbl" id="potLabel">현재 적립함</div>
+    <div class="num mono" id="potNum">$0</div>
+    <div class="sub" id="potSub">아직 적립된 라운드가 없어요</div>
+  </div>
+
+  <div class="lifetime">
+    <span class="lbl" id="lifetimeLabel">누적 기부액</span>
+    <span class="num" id="lifetimeNum">$0</span>
+  </div>
+
+  <div class="sect-t" id="sectRounds">최근 라운드</div>
+  <div id="roundsList"></div>
+
+  <div class="sect-t" id="sectGifts" style="margin-top:32px;">기부 기록</div>
+  <div id="giftsList"></div>
+
+  <footer>
+    <div class="tags2">#JJBirdies #FlyBirdie</div>
+    <a href="jj-project.html" id="footerLink">프로젝트 소개 전체 보기 →</a>
+  </footer>
+
+</div>
+
+<script>
+var DB = 'https://jj-project-19847-default-rtdb.firebaseio.com';
+
+var LANG = {
+  ko: {
+    potLabel: '현재 적립함',
+    lifetimeLabel: '누적 기부액',
+    sectRounds: '최근 라운드',
+    sectGifts: '기부 기록',
+    footerLink: '프로젝트 소개 전체 보기 →',
+    emptyRounds: '첫 라운드 기록을 기다리고 있어요',
+    emptyGifts: '아직 전달된 기부가 없어요<br>적립함이 채워지면 여기에 기록될 거예요',
+    emptyData: '데이터를 불러오지 못했어요',
+    potSubEmpty: '다음 라운드를 기다리는 중',
+    potSubActive: function(n){ return '라운드 ' + n + '건 · 다음 기부를 기다리는 중'; },
+    birdie: '버디',
+    eagle: '이글+',
+    delivered: '전달',
+    mediaPending: '전달 사진·영상 준비 중'
+  },
+  en: {
+    potLabel: 'Current pot',
+    lifetimeLabel: 'Lifetime donated',
+    sectRounds: 'Recent rounds',
+    sectGifts: 'Donation history',
+    footerLink: 'See the full project →',
+    emptyRounds: 'Waiting for the first round',
+    emptyGifts: 'No donations yet<br>They will show up here once the pot is given away',
+    emptyData: 'Could not load data',
+    potSubEmpty: 'Waiting for the next round',
+    potSubActive: function(n){ return n + ' round' + (n>1?'s':'') + ' logged \u00b7 saving up for the next gift'; },
+    birdie: 'Birdie',
+    eagle: 'Eagle+',
+    delivered: 'donated',
+    mediaPending: 'Photo / video coming soon'
+  },
+  zh: {
+    potLabel: '当前累积',
+    lifetimeLabel: '累计捐赠',
+    sectRounds: '最近回合',
+    sectGifts: '捐赠记录',
+    footerLink: '查看项目完整介绍 →',
+    emptyRounds: '正在等待第一轮记录',
+    emptyGifts: '还没有捐赠记录<br>累积金额捐出后会显示在这里',
+    emptyData: '数据加载失败',
+    potSubEmpty: '正在等待下一轮',
+    potSubActive: function(n){ return '已记录 ' + n + ' 轮 \u00b7 正在为下一次捐赠积累'; },
+    birdie: '小鸟球',
+    eagle: '老鹰球+',
+    delivered: '已捐赠',
+    mediaPending: '照片/视频即将上传'
+  }
+};
+
+var currentLang = localStorage.getItem('jj_lang') || 'ko';
+var lastROUNDS = [];
+var lastGIFTS = [];
+
+function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+function toArray(obj){ if (!obj) return []; return Object.keys(obj).map(function(k){ return obj[k]; }); }
+
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('jj_lang', lang);
+  document.querySelectorAll('.langbtn').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  });
+  applyStaticText();
+  render(lastROUNDS, lastGIFTS);
+}
+
+function applyStaticText(){
+  var t = LANG[currentLang];
+  document.getElementById('potLabel').textContent = t.potLabel;
+  document.getElementById('lifetimeLabel').textContent = t.lifetimeLabel;
+  document.getElementById('sectRounds').textContent = t.sectRounds;
+  document.getElementById('sectGifts').textContent = t.sectGifts;
+  document.getElementById('footerLink').textContent = t.footerLink;
+}
+
+async function loadData(){
+  try{
+    var r1 = await fetch(DB + '/rounds.json').then(function(r){ return r.json(); });
+    var r2 = await fetch(DB + '/gifts.json').then(function(r){ return r.json(); });
+    lastROUNDS = toArray(r1).sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+    lastGIFTS = toArray(r2).sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+    render(lastROUNDS, lastGIFTS);
+  }catch(e){
+    console.error(e);
+    document.getElementById('roundsList').innerHTML = '<div class="empty">' + LANG[currentLang].emptyData + '</div>';
+  }
+}
+
+function render(ROUNDS, GIFTS){
+  var t = LANG[currentLang];
+  var lastGiftDate = GIFTS.length ? GIFTS[GIFTS.length-1].date : null;
+  var currentRounds = ROUNDS.filter(function(r){ return !lastGiftDate || r.date > lastGiftDate; });
+  var potTotal = currentRounds.reduce(function(s,r){ return s + r.amount; }, 0);
+  var lifetimeTotal = GIFTS.reduce(function(s,g){ return s + g.amount; }, 0);
+
+  document.getElementById('potNum').textContent = fmt(potTotal);
+  document.getElementById('lifetimeNum').textContent = fmt(lifetimeTotal);
+  document.getElementById('potSub').textContent = currentRounds.length
+    ? t.potSubActive(currentRounds.length)
+    : t.potSubEmpty;
+
+  var roundsList = document.getElementById('roundsList');
+  roundsList.innerHTML = '';
+  if (ROUNDS.length === 0) {
+    roundsList.innerHTML = '<div class="empty">' + t.emptyRounds + '</div>';
+  } else {
+    ROUNDS.slice().reverse().forEach(function(r){
+      var div = document.createElement('div');
+      div.className = 'round';
+      var thumb = r.photo ? '<img src="'+r.photo+'" alt="">' : '⛳';
+      var tags = '';
+      if (r.birdies) tags += '<span class="tag birdie">'+t.birdie+' '+r.birdies+'</span>';
+      if (r.eagles) tags += '<span class="tag eagle">'+t.eagle+' '+r.eagles+'</span>';
+      div.innerHTML =
+        '<div class="thumb">'+thumb+'</div>'+
+        '<div class="info">'+
+          '<div class="date mono">'+r.date+'</div>'+
+          '<div class="tags">'+tags+'</div>'+
+          '<div class="course">'+(r.course||'')+'</div>'+
+        '</div>'+
+        '<div class="amt">+'+fmt(r.amount)+'</div>';
+      roundsList.appendChild(div);
+    });
+  }
+
+  var giftsList = document.getElementById('giftsList');
+  giftsList.innerHTML = '';
+  if (GIFTS.length === 0) {
+    giftsList.innerHTML = '<div class="empty">' + t.emptyGifts + '</div>';
+  } else {
+    GIFTS.slice().reverse().forEach(function(g){
+      var card = document.createElement('div');
+      card.className = 'gift';
+      var mediaHtml = t.mediaPending;
+      if (g.media) {
+        mediaHtml = /\.(mp4|webm|mov)$/i.test(g.media)
+          ? '<video src="'+g.media+'" controls></video>'
+          : '<img src="'+g.media+'" alt="">';
+      }
+      card.innerHTML =
+        '<div class="media">'+mediaHtml+'</div>'+
+        '<div class="body">'+
+          '<div class="date mono">'+g.date+'</div>'+
+          '<div class="org">'+(g.org||'')+'</div>'+
+          '<div class="caption">'+(g.caption||'')+'</div>'+
+          '<div class="amt">'+fmt(g.amount)+' '+t.delivered+'</div>'+
+        '</div>';
+      giftsList.appendChild(card);
+    });
+  }
+}
+
+document.querySelectorAll('.langbtn').forEach(function(b){
+  b.classList.toggle('on', b.getAttribute('data-lang') === currentLang);
+});
+applyStaticText();
+loadData();
+</script>
+</body>
+</html>
