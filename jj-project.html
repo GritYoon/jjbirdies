@@ -203,6 +203,9 @@ section{position:relative;}
   display:inline-block;margin-top:28px;padding:10px 22px;border:1px dashed var(--line);
   border-radius:99px;font-family:'Space Mono',monospace;font-size:12px;color:var(--gold-soft);
 }
+.cause-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px;max-width:640px;margin-left:auto;margin-right:auto;}
+@media (max-width:560px){.cause-photos{grid-template-columns:1fr 1fr;}}
+.cause-photos img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid var(--line);}
 
 /* ============ 참여 ============ */
 .join{padding:110px 0 130px;background:var(--paper);color:var(--ink);text-align:center;}
@@ -364,6 +367,11 @@ footer .foot-sub{font-size:12px;color:rgba(245,240,225,.4);}
       <p id="causeP">지완이가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정합니다.<br>
       정해지는 대로 이곳에서 소개할게요.</p>
       <div class="cause-badge" id="causeBadge">기부처 공개 예정</div>
+      <div class="cause-photos">
+        <img src="jj-cause-1.jpg" alt="지완이와 지석이의 봉사활동">
+        <img src="jj-cause-2.jpg" alt="지완이와 지석이의 봉사활동">
+        <img src="jj-cause-3.jpg" alt="지완이와 지석이의 봉사활동">
+      </div>
     </div>
   </div>
 </section>
