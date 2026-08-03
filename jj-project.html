@@ -113,6 +113,13 @@ section{position:relative;}
 }
 .hero-photo-slot{aspect-ratio:3/4;max-width:340px;margin:32px auto 0;}
 .hero-photo-slot img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
+.hero-gallery{
+  display:flex;gap:14px;overflow-x:auto;max-width:640px;margin:32px auto 0;
+  padding:0 4px 8px;scroll-snap-type:x mandatory;
+}
+.hero-gallery-item{flex:0 0 220px;scroll-snap-align:center;}
+.hero-gallery-item img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid var(--line);}
+.hero-gallery-item .cap{font-size:11.5px;color:var(--ink-soft);margin-top:8px;text-align:center;line-height:1.5;}
 .avatar-slot{width:88px;height:88px;border-radius:50%;margin:0 auto 16px;}
 
 /* ============ 룰: 스코어카드 ============ */
@@ -266,7 +273,20 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
   성적을 위한 골프가 아니라, 나눔을 위한 골프.<br>
   JJ Birdies는 그렇게 시작됐어요.</p>
   <div class="hero-tag"><span class="dot"></span> JJ BIRDIES · FLY, BIRDIE.</div>
-  <div class="hero-photo-slot"><img id="heroPhotoImg" src="jj-hero-photo.jpg" alt="지완이, AJGA 주니어 골프 대회에서"></div>
+  <div class="hero-gallery">
+    <div class="hero-gallery-item">
+      <img id="heroPhotoImg" src="jj-hero-photo.jpg" alt="지완이, AJGA 주니어 골프 대회에서">
+      <div class="cap" id="heroCap1">첫 AJGA 대회에 출전했을 때</div>
+    </div>
+    <div class="hero-gallery-item">
+      <img src="jj-hero-2.jpg" alt="지완이, US Kids Golf 월드 챔피언십에서">
+      <div class="cap" id="heroCap2">US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서</div>
+    </div>
+    <div class="hero-gallery-item">
+      <img src="jj-hero-3.jpg" alt="지완이, 아빠, 지석이가 같은 대회에서">
+      <div class="cap" id="heroCap3">같은 대회에서, 아빠·지석이와 함께</div>
+    </div>
+  </div>
   <div class="scroll-cue">↓ scroll</div>
 </section>
 
@@ -459,6 +479,9 @@ var LANG = {
     igLink: '📷 인스타그램 팔로우', joinLink: '알림 받기',
     altHero: '지완이, AJGA 주니어 골프 대회에서', altGolfStart: '지완이가 골프를 처음 시작했을 때',
     altStory: '지완이의 봉사활동 기록', altJiwan: '지완', altJiseok: '지석',
+    heroCap1: '첫 AJGA 대회에 출전했을 때',
+    heroCap2: 'US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서',
+    heroCap3: '같은 대회에서, 아빠·지석이와 함께',
   },
   en: {
     heroPara: "Every time I make a birdie,<br>I donate from my own allowance.<br>Not golf for the score, but golf for giving.<br>That's how JJ Birdies began.",
@@ -490,6 +513,9 @@ var LANG = {
     igLink: '📷 Follow on Instagram', joinLink: 'Get notified',
     altHero: 'Jiwan at an AJGA junior golf tournament', altGolfStart: 'When Jiwan first started golf',
     altStory: "Jiwan's volunteer record", altJiwan: 'Jiwan', altJiseok: 'Jiseok',
+    heroCap1: 'Competing in his first AJGA tournament',
+    heroCap2: 'Invited to the US Kids Golf World Championship, at Pinehurst',
+    heroCap3: 'Same tournament, with Dad and Jiseok',
   },
   zh: {
     heroPara: '每当我打出一个小鸟球，<br>我都会从自己的零花钱里捐出一笔钱。<br>这不是为了成绩的高尔夫，而是为了分享的高尔夫。<br>JJ Birdies 就是这样开始的。',
@@ -521,6 +547,9 @@ var LANG = {
     igLink: '📷 关注 Instagram', joinLink: '获取通知',
     altHero: 'Jiwan 在 AJGA 青少年高尔夫锦标赛现场', altGolfStart: 'Jiwan 刚开始打高尔夫的时候',
     altStory: 'Jiwan 的志愿服务记录', altJiwan: 'Jiwan', altJiseok: 'Jiseok',
+    heroCap1: '第一次参加 AJGA 比赛',
+    heroCap2: '受邀参加 US Kids Golf 世界锦标赛，在松树谷（Pinehurst）',
+    heroCap3: '同一场比赛，和爸爸、Jiseok 一起',
   }
 };
 
