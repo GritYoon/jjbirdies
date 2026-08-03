@@ -32,24 +32,24 @@ h1,h2,h3{font-family:'Noto Serif KR',serif;}
 }
 .langbtn.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
 
-.head{text-align:center;margin-bottom:10px;}
+.head{text-align:center;margin-bottom:14px;}
 .head .mark{
   font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;
 }
 .head h1{font-size:22px;font-weight:900;color:var(--ink);}
 
-.pot{text-align:center;padding:22px 0 10px;}
-.pot .lbl{font-size:12px;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:4px;}
-.pot .num{font-family:'Space Mono',monospace;font-size:56px;font-weight:700;color:var(--navy);line-height:1;}
-.pot .sub{font-size:12.5px;color:var(--ink-soft);margin-top:8px;}
+.trophy-row{font-size:20px;line-height:1.6;text-align:center;letter-spacing:2px;margin-top:14px;}
+.trophy-cap{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-bottom:22px;letter-spacing:.03em;}
 
-.lifetime{
-  background:var(--card);border-radius:14px;padding:16px 20px;text-align:center;margin:18px 0 30px;
-  box-shadow:0 1px 3px rgba(27,42,56,.06);
-}
-.lifetime .lbl{font-size:11.5px;color:var(--ink-soft);margin-bottom:4px;}
-.lifetime .num{font-family:'Space Mono',monospace;font-size:32px;font-weight:700;color:var(--navy);}
+.stat-big{background:var(--card);border-radius:16px;padding:1.75rem 1.25rem;margin-bottom:12px;text-align:center;box-shadow:0 1px 3px rgba(15,31,44,.06);}
+.stat-big .lbl{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
+.stat-big .num{font-family:'Space Mono',monospace;font-size:46px;font-weight:700;color:var(--navy);}
+.stat-small{background:var(--card);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:28px;text-align:center;cursor:pointer;box-shadow:0 1px 3px rgba(15,31,44,.06);}
+.stat-small .lbl{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
+.stat-small .num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--navy);}
+.year-row{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--line);color:var(--ink-soft);margin-top:4px;}
+.year-row span:last-child{font-family:'Space Mono',monospace;color:var(--navy);font-weight:700;}
 
 .sect-t{
   font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);
@@ -118,24 +118,26 @@ footer .tags2{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--in
     <h1>Fly, Birdie.</h1>
   </div>
 
-  <div class="pot">
-    <div class="lbl" id="potLabel">현재 적립함</div>
-    <div class="num mono" id="potNum">$0</div>
-    <div class="sub" id="potSub">아직 적립된 라운드가 없어요</div>
+  <div class="trophy-row" id="trophyRow"></div>
+  <div class="trophy-cap" id="trophyCap">15 career wins</div>
+
+  <div class="stat-big">
+    <div class="lbl" id="statPotLbl">2026 donations</div>
+    <div class="num mono" id="statPot">$0</div>
+  </div>
+  <div class="stat-small" id="statLifetimeBox">
+    <div class="lbl" id="statLifetimeLbl">Total lifetime donated</div>
+    <div class="num mono" id="statLifetime">$0</div>
+    <div id="yearBreakdown" style="display:none;"></div>
   </div>
 
-  <div class="lifetime">
-    <div class="lbl" id="lifetimeLabel">누적 기부액</div>
-    <div class="num" id="lifetimeNum">$0</div>
-  </div>
-
-  <div class="sect-t" id="sectRounds">최근 라운드</div>
+  <div class="sect-t" id="sectRounds">Recent rounds</div>
   <div id="roundsList"></div>
 
-  <div class="sect-t" id="sectGifts" style="margin-top:28px;">기부 기록</div>
+  <div class="sect-t" id="sectGifts" style="margin-top:28px;">Donation history</div>
   <div id="giftsList"></div>
 
-  <a href="jj-project.html" class="cta" id="ctaLink">프로젝트 소개 전체 보기 →</a>
+  <a href="jj-project.html" class="cta" id="ctaLink">See the full project →</a>
 
   <footer>
     <div class="tags2">#JJBirdies #FlyBirdie</div>
@@ -145,49 +147,60 @@ footer .tags2{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--in
 
 <script>
 var DB = 'https://jj-project-19847-default-rtdb.firebaseio.com';
+var PRIOR_WINS = 15;
 
 var LANG = {
   ko: {
-    potLabel: '현재 적립함', lifetimeLabel: '누적 기부액',
+    statPotLbl: '{year}년 기부 적립금', statLifetimeLbl: '총 누적 기부액',
     sectRounds: '최근 라운드', sectGifts: '기부 기록', ctaLink: '프로젝트 소개 전체 보기 →',
     emptyRounds: '첫 라운드 기록을 기다리고 있어요',
     emptyGifts: '아직 전달된 기부가 없어요<br>적립함이 채워지면 여기에 기록될 거예요',
     emptyData: '데이터를 불러오지 못했어요',
-    potSubEmpty: '다음 라운드를 기다리는 중',
-    potSubActive: function(n){ return '라운드 ' + n + '건 · 다음 기부를 기다리는 중'; },
     birdie: '버디', eagle: '이글+', win: '1위', delivered: '전달',
-    mediaPending: '전달 사진·영상 준비 중'
+    mediaPending: '전달 사진·영상 준비 중',
+    trophyCap: function(n){ return '통산 ' + n + '승'; }
   },
   en: {
-    potLabel: 'Current pot', lifetimeLabel: 'Lifetime donated',
+    statPotLbl: '{year} donations', statLifetimeLbl: 'Total lifetime donated',
     sectRounds: 'Recent rounds', sectGifts: 'Donation history', ctaLink: 'See the full project →',
     emptyRounds: 'Waiting for the first round',
     emptyGifts: 'No donations yet<br>They will show up here once the pot is given away',
     emptyData: 'Could not load data',
-    potSubEmpty: 'Waiting for the next round',
-    potSubActive: function(n){ return n + ' round' + (n>1?'s':'') + ' logged \u00b7 saving up for the next gift'; },
     birdie: 'Birdie', eagle: 'Eagle+', win: '1st place', delivered: 'donated',
-    mediaPending: 'Photo / video coming soon'
+    mediaPending: 'Photo / video coming soon',
+    trophyCap: function(n){ return n + ' career wins'; }
   },
   zh: {
-    potLabel: '当前累积', lifetimeLabel: '累计捐赠',
+    statPotLbl: '{year}年捐赠积累', statLifetimeLbl: '总累计捐赠',
     sectRounds: '最近回合', sectGifts: '捐赠记录', ctaLink: '查看项目完整介绍 →',
     emptyRounds: '正在等待第一轮记录',
     emptyGifts: '还没有捐赠记录<br>累积金额捐出后会显示在这里',
     emptyData: '数据加载失败',
-    potSubEmpty: '正在等待下一轮',
-    potSubActive: function(n){ return '已记录 ' + n + ' 轮 \u00b7 正在为下一次捐赠积累'; },
     birdie: '小鸟球', eagle: '老鹰球+', win: '第一名', delivered: '已捐赠',
-    mediaPending: '照片/视频即将上传'
+    mediaPending: '照片/视频即将上传',
+    trophyCap: function(n){ return '职业生涯 ' + n + ' 胜'; }
   }
 };
 
 var currentLang = localStorage.getItem('jj_lang') || 'en';
 var lastROUNDS = [];
 var lastGIFTS = [];
+var liveWinCount = 0;
 
 function fmt(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
 function toArray(obj){ if (!obj) return []; return Object.keys(obj).map(function(k){ return obj[k]; }); }
+
+function countUp(el, target, duration){
+  var start = performance.now();
+  var from = 0;
+  function tick(now){
+    var progress = Math.min((now - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = fmt(from + (target - from) * eased);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
 function setLang(lang){
   currentLang = lang;
@@ -197,17 +210,29 @@ function setLang(lang){
   });
   document.documentElement.lang = lang;
   applyStaticText();
+  renderTrophy();
   render(lastROUNDS, lastGIFTS);
 }
 
 function applyStaticText(){
   var t = LANG[currentLang];
-  document.getElementById('potLabel').textContent = t.potLabel;
-  document.getElementById('lifetimeLabel').textContent = t.lifetimeLabel;
+  document.getElementById('statPotLbl').textContent = t.statPotLbl.replace('{year}', new Date().getFullYear());
+  document.getElementById('statLifetimeLbl').textContent = t.statLifetimeLbl;
   document.getElementById('sectRounds').textContent = t.sectRounds;
   document.getElementById('sectGifts').textContent = t.sectGifts;
   document.getElementById('ctaLink').textContent = t.ctaLink;
 }
+
+function renderTrophy(){
+  var total = PRIOR_WINS + liveWinCount;
+  document.getElementById('trophyRow').textContent = '🏆'.repeat(total);
+  document.getElementById('trophyCap').textContent = LANG[currentLang].trophyCap(total);
+}
+
+document.getElementById('statLifetimeBox').addEventListener('click', function(){
+  var el = document.getElementById('yearBreakdown');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+});
 
 async function loadData(){
   try{
@@ -224,16 +249,28 @@ async function loadData(){
 
 function render(ROUNDS, GIFTS){
   var t = LANG[currentLang];
-  var lastGiftDate = GIFTS.length ? GIFTS[GIFTS.length-1].date : null;
-  var currentRounds = ROUNDS.filter(function(r){ return !lastGiftDate || r.date > lastGiftDate; });
-  var potTotal = currentRounds.reduce(function(s,r){ return s + r.amount; }, 0);
+
+  liveWinCount = ROUNDS.filter(function(r){ return r.win; }).length;
+  renderTrophy();
+
+  var thisYear = String(new Date().getFullYear());
+  var potTotal = ROUNDS.filter(function(r){ return r.date && r.date.slice(0,4) === thisYear; })
+                       .reduce(function(s,r){ return s + r.amount; }, 0);
   var lifetimeTotal = GIFTS.reduce(function(s,g){ return s + g.amount; }, 0);
 
-  document.getElementById('potNum').textContent = fmt(potTotal);
-  document.getElementById('lifetimeNum').textContent = fmt(lifetimeTotal);
-  document.getElementById('potSub').textContent = currentRounds.length
-    ? t.potSubActive(currentRounds.length)
-    : t.potSubEmpty;
+  countUp(document.getElementById('statPot'), potTotal, 900);
+  countUp(document.getElementById('statLifetime'), lifetimeTotal, 1200);
+
+  var byYear = {};
+  GIFTS.forEach(function(g){
+    var y = g.date ? g.date.slice(0,4) : '?';
+    byYear[y] = (byYear[y] || 0) + g.amount;
+  });
+  var years = Object.keys(byYear).sort(function(a,b){ return b.localeCompare(a); });
+  var breakdownEl = document.getElementById('yearBreakdown');
+  breakdownEl.innerHTML = years.length
+    ? years.map(function(y){ return '<div class="year-row"><span>'+y+'</span><span>'+fmt(byYear[y])+'</span></div>'; }).join('')
+    : '<div class="year-row"><span>—</span><span>$0</span></div>';
 
   var roundsList = document.getElementById('roundsList');
   roundsList.innerHTML = '';
@@ -243,7 +280,7 @@ function render(ROUNDS, GIFTS){
     ROUNDS.slice().reverse().forEach(function(r){
       var div = document.createElement('div');
       div.className = 'round';
-      var thumb = r.photo ? '<img src="'+r.photo+'" alt="">' : '<i class="ti"></i>⛳';
+      var thumb = r.photo ? '<img src="'+r.photo+'" alt="">' : '⛳';
       var tags = '';
       if (r.birdies) tags += '<span class="tag birdie">'+t.birdie+' '+r.birdies+'</span>';
       if (r.eagles) tags += '<span class="tag birdie">'+t.eagle+' '+r.eagles+'</span>';
@@ -290,6 +327,7 @@ document.querySelectorAll('.langbtn').forEach(function(b){
   b.classList.toggle('on', b.getAttribute('data-lang') === currentLang);
 });
 applyStaticText();
+renderTrophy();
 loadData();
 </script>
 </body>
