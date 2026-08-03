@@ -114,10 +114,10 @@ section{position:relative;}
 .hero-photo-slot{aspect-ratio:3/4;max-width:340px;margin:32px auto 0;}
 .hero-photo-slot img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
 .hero-gallery{
-  display:flex;gap:14px;overflow-x:auto;max-width:640px;margin:32px auto 0;
-  padding:0 4px 8px;scroll-snap-type:x mandatory;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  max-width:640px;margin:32px auto 0;
 }
-.hero-gallery-item{flex:0 0 220px;scroll-snap-align:center;}
+@media (max-width:640px){.hero-gallery{grid-template-columns:1fr;max-width:340px;}}
 .hero-gallery-item img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid var(--line);}
 .hero-gallery-item .cap{font-size:11.5px;color:var(--ink-soft);margin-top:8px;text-align:center;line-height:1.5;}
 .avatar-slot{width:88px;height:88px;border-radius:50%;margin:0 auto 16px;}
@@ -284,7 +284,7 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
     </div>
     <div class="hero-gallery-item">
       <img src="jj-hero-3.jpg" alt="지완이, 아빠, 지석이가 같은 대회에서">
-      <div class="cap" id="heroCap3">같은 대회에서, 아빠·지석이와 함께</div>
+      <div class="cap" id="heroCap3">첫 US Kids Golf 월드 챔피언십, 아빠·지석이와 함께</div>
     </div>
   </div>
   <div class="scroll-cue">↓ scroll</div>
@@ -356,26 +356,13 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
   </div>
 </section>
 
-<!-- ============ 트래커 ============ -->
+<!-- ============ 트래커 안내 ============ -->
 <section class="tracker">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">Season Tracker</div>
-      <h2 id="trackerH2">지금까지의 기록</h2>
-    </div>
-    <p class="note reveal" id="trackerNote">시즌이 시작되면 이 페이지에서 버디 수와 기부액이 실시간으로 업데이트됩니다.</p>
-
-    <div class="stat-row reveal">
-      <div class="stat"><div class="num" id="statBirdies">0</div><div class="lbl" id="statBirdiesLbl">이번 시즌 버디</div></div>
-      <div class="stat"><div class="num" id="statEagles">0</div><div class="lbl" id="statEaglesLbl">이번 시즌 이글+</div></div>
-      <div class="stat"><div class="num" id="statTotal">준비중</div><div class="lbl" id="statTotalLbl">누적 기부액</div></div>
-    </div>
-
-    <div class="reveal">
-      <div class="scorecard-label"><span id="scLabel1">예시 라운드 · HOLE 1–9</span><span id="scLabel2">이렇게 기록돼요</span></div>
-      <div class="scorecard" id="scorecard"></div>
-      <div class="scorecard-caption" id="scCaption">🟡 버디 · 🔴 이글 이상 — 실제 시즌 데이터로 교체될 예시입니다.</div>
-    </div>
+  <div class="wrap" style="text-align:center;">
+    <div class="eyebrow">Season Tracker</div>
+    <h2 id="trackerH2">지금 얼마나 쌓였는지 보기</h2>
+    <p class="note reveal" id="trackerNote">버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.</p>
+    <a href="jj-tracker.html" class="btn primary" id="trackerLink" style="margin-top:10px;">실시간 기록 보기 →</a>
   </div>
 </section>
 
@@ -441,12 +428,11 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
 <script>
 /* ============================================================
    편집 가이드 (안디님 확인용)
-   - 버디/이글 기부 금액 정해지면: .rule-card .amt 의 텍스트와 class="tbd" 제거 (LANG의 ruleBirdieAmt 등도 같이 수정)
-   - 시즌 통계: 아래 SEASON 값을 실제 데이터로 교체 (또는 Firebase 연동)
+   - 버디/이글 기부 금액 정해지면: .rule-card .amt 의 텍스트 (LANG의 ruleBirdieAmt 등도 같이 수정)
    - 기부처 정해지면: causeH2/causeP/causeBadge 문구 교체
    - 인스타 링크: #igLink, #joinLink 의 href 교체
+   - 실시간 기록(버디 수, 기부액)은 이 페이지가 아니라 jj-tracker.html에서 보여줍니다
    ============================================================ */
-var SEASON = { birdies: 0, eagles: 0, totalDonated: null }; // totalDonated: null이면 '준비중' 표시
 
 var LANG = {
   ko: {
@@ -464,11 +450,9 @@ var LANG = {
     ruleEagleTitle: '이글 이상', ruleEagleDesc: '더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.', ruleEagleAmt: '$20',
     ruleAceTitle: '홀인원', ruleAceDesc: '평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.', ruleAceAmt: '$100',
     ruleWinTitle: '우승', ruleWinDesc: '대회에서 1등을 하면 부모님이 $100을 주시는데, 그중 $50은 제 몫으로 갖고 나머지 $50은 기부해요.', ruleWinAmt: '$50 기부',
-    trackerH2: '지금까지의 기록',
-    trackerNote: '시즌이 시작되면 이 페이지에서 버디 수와 기부액이 실시간으로 업데이트됩니다.',
-    statBirdiesLbl: '이번 시즌 버디', statEaglesLbl: '이번 시즌 이글+', statTotalLbl: '누적 기부액', statTotalVal: '준비중',
-    scLabel1: '예시 라운드 · HOLE 1–9', scLabel2: '이렇게 기록돼요',
-    scCaption: '🟡 버디 · 🔴 이글 이상 — 실제 시즌 데이터로 교체될 예시입니다.',
+    trackerH2: '지금 얼마나 쌓였는지 보기',
+    trackerNote: '버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.',
+    trackerLink: '실시간 기록 보기 →',
     causeH2: '기부처는 함께 정해요',
     causeP: '제가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정해요.<br>정해지는 대로 이곳에서 소개할게요.',
     causeBadge: '기부처 공개 예정',
@@ -498,11 +482,9 @@ var LANG = {
     ruleEagleTitle: 'Eagle & up', ruleEagleDesc: 'For rarer moments, I put in a little more heart — donating more than a birdie.', ruleEagleAmt: '$20',
     ruleAceTitle: 'Hole-in-one', ruleAceDesc: 'A moment that might happen only a few times in a lifetime. A hole-in-one comes with an especially big donation.', ruleAceAmt: '$100',
     ruleWinTitle: '1st place', ruleWinDesc: "When I finish first in a tournament, my parents give me $100 — I keep $50, and donate the other $50.", ruleWinAmt: '$50 donated',
-    trackerH2: 'The record so far',
-    trackerNote: "Once the season starts, birdie counts and donation totals will update here in real time.",
-    statBirdiesLbl: 'Birdies this season', statEaglesLbl: 'Eagles+ this season', statTotalLbl: 'Lifetime donated', statTotalVal: 'Coming soon',
-    scLabel1: 'Sample round · Holes 1–9', scLabel2: "This is how it's logged",
-    scCaption: '🟡 Birdie · 🔴 Eagle & up — a sample that will be replaced with real season data.',
+    trackerH2: 'See how much has added up',
+    trackerNote: "Every birdie adds up here, updated in real time.",
+    trackerLink: 'See the live tracker →',
     causeH2: 'Choosing where it goes, together',
     causeP: "I propose candidates, then make the final decision after talking it over with my parents and mentors.<br>I'll introduce it here as soon as it's decided.",
     causeBadge: 'Recipient announcement coming soon',
@@ -532,11 +514,9 @@ var LANG = {
     ruleEagleTitle: '老鹰球以上', ruleEagleDesc: '在更特别的时刻，我会投入更多心意——捐出比小鸟球更多的金额。', ruleEagleAmt: '$20',
     ruleAceTitle: '一杆进洞', ruleAceDesc: '这是一生难得几次的时刻。打出一杆进洞时，我会承诺一份格外大的捐赠。', ruleAceAmt: '$100',
     ruleWinTitle: '第一名', ruleWinDesc: '在比赛中获得第一名时，父母会给我 $100——我自己留 $50，另外 $50 用来捐赠。', ruleWinAmt: '捐赠 $50',
-    trackerH2: '至今为止的记录',
-    trackerNote: '赛季开始后，这个页面会实时更新小鸟球数量和捐赠金额。',
-    statBirdiesLbl: '本赛季小鸟球', statEaglesLbl: '本赛季老鹰球+', statTotalLbl: '累计捐赠', statTotalVal: '敬请期待',
-    scLabel1: '示例回合 · 1–9 洞', scLabel2: '记录方式示例',
-    scCaption: '🟡 小鸟球 · 🔴 老鹰球以上 —— 这是示例，将来会替换为真实赛季数据。',
+    trackerH2: '看看现在积累了多少',
+    trackerNote: '每一个小鸟球都会实时累积记录在这里。',
+    trackerLink: '查看实时记录 →',
     causeH2: '一起决定捐赠去向',
     causeP: '由我提出候选名单，再和父母及身边的导师商量后做最终决定。<br>一旦确定，我会在这里介绍。',
     causeBadge: '捐赠对象即将公布',
@@ -568,35 +548,12 @@ function setLang(lang){
   Object.keys(t).forEach(function(id){
     var el = document.getElementById(id);
     if(!el) return;
-    if(id === 'statTotalVal'){
-      if(SEASON.totalDonated === null) el.textContent = t.statTotalVal;
-    } else {
-      el.innerHTML = t[id];
-    }
+    el.innerHTML = t[id];
   });
 }
 
-document.getElementById('statBirdies').textContent = SEASON.birdies;
-document.getElementById('statEagles').textContent = SEASON.eagles;
-document.getElementById('statTotal').textContent = SEASON.totalDonated === null ? LANG.en.statTotalVal : ('$' + SEASON.totalDonated.toLocaleString());
-
 var initialLang = localStorage.getItem('jjp_lang') || 'en';
 setLang(initialLang);
-
-// 예시 스코어카드 (holes 1-9) — 실제 라운드 데이터 연동 전 데모용
-var demoHoles = [
-  {n:1, mark:''}, {n:2, mark:'birdie'}, {n:3, mark:''},
-  {n:4, mark:''}, {n:5, mark:'eagle'}, {n:6, mark:''},
-  {n:7, mark:'birdie'}, {n:8, mark:''}, {n:9, mark:'birdie'}
-];
-var scEl = document.getElementById('scorecard');
-demoHoles.forEach(function(h){
-  var div = document.createElement('div');
-  div.className = 'hole' + (h.mark ? ' ' + h.mark : '');
-  var symbol = h.mark === 'eagle' ? '●' : h.mark === 'birdie' ? '●' : '–';
-  div.innerHTML = '<div class="h-num">'+h.n+'</div><div class="h-mark">'+symbol+'</div>';
-  scEl.appendChild(div);
-});
 
 // 스크롤 리빌
 var reveals = document.querySelectorAll('.reveal');
