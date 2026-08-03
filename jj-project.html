@@ -170,6 +170,15 @@ section{position:relative;}
 .stat .lbl{font-size:12px;color:var(--ink-soft);margin-top:6px;letter-spacing:.03em;}
 .trophy-row{font-size:22px;line-height:1.6;max-width:520px;margin:0 auto 6px;letter-spacing:2px;}
 .trophy-cap{font-size:12px;color:var(--ink-soft);margin-bottom:20px;letter-spacing:.03em;}
+.stat-big{background:var(--bg-2);border-radius:16px;padding:1.75rem 1.25rem;margin-bottom:12px;}
+.stat-big .lbl{font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.stat-big .num{font-family:'Space Mono',monospace;font-size:44px;font-weight:700;color:var(--navy);}
+.stat-small{background:var(--bg-2);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:30px;}
+.stat-small .lbl{font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.stat-small .num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--navy);}
+.year-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-top:1px solid var(--line);color:var(--ink-soft);}
+.year-row:first-child{border-top:1px solid var(--line);margin-top:10px;}
+.year-row span:last-child{font-family:'Space Mono',monospace;color:var(--navy);font-weight:700;}
 
 /* 스코어카드 스트립 (시그니처 요소) */
 .scorecard-label{
@@ -367,9 +376,16 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
     <h2 id="trackerH2">지금까지의 기록</h2>
     <p class="note reveal" id="trackerNote">버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.</p>
 
-    <div class="stat-row reveal" style="grid-template-columns:1fr 1fr;">
-      <div class="stat"><div class="num" id="statPot">$0</div><div class="lbl" id="statPotLbl">현재 적립함</div></div>
-      <div class="stat"><div class="num" id="statLifetime">$0</div><div class="lbl" id="statLifetimeLbl">누적 기부액</div></div>
+    <div style="max-width:340px;margin:0 auto;">
+      <div class="stat-big reveal">
+        <div class="lbl" id="statPotLbl">2026년 기부 적립금</div>
+        <div class="num" id="statPot">$0</div>
+      </div>
+      <div class="stat-small reveal" id="statLifetimeBox" style="cursor:pointer;">
+        <div class="lbl" id="statLifetimeLbl">총 누적 기부액</div>
+        <div class="num" id="statLifetime">$0</div>
+        <div id="yearBreakdown" style="display:none;"></div>
+      </div>
     </div>
 
     <a href="jj-tracker.html" class="btn primary" id="trackerLink">실시간 기록 전체 보기 →</a>
@@ -462,7 +478,7 @@ var LANG = {
     ruleWinTitle: '우승', ruleWinDesc: '대회에서 1등을 하면 부모님이 $100을 주시는데, 그중 $50은 제 몫으로 갖고 나머지 $50은 기부해요.', ruleWinAmt: '$50 기부',
     trackerH2: '지금까지의 기록',
     trackerNote: '버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.',
-    statPotLbl: '현재 적립함', statLifetimeLbl: '누적 기부액',
+    statPotLbl: '{year}년 기부 적립금', statLifetimeLbl: '총 누적 기부액',
     trackerLink: '실시간 기록 전체 보기 →',
     causeH2: '기부처는 함께 정해요',
     causeP: '제가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정해요.<br>정해지는 대로 이곳에서 소개할게요.',
@@ -495,7 +511,7 @@ var LANG = {
     ruleWinTitle: '1st place', ruleWinDesc: "When I finish first in a tournament, my parents give me $100 — I keep $50, and donate the other $50.", ruleWinAmt: '$50 donated',
     trackerH2: 'The record so far',
     trackerNote: "Every birdie adds up here, updated in real time.",
-    statPotLbl: 'Current pot', statLifetimeLbl: 'Lifetime donated',
+    statPotLbl: '{year} donations', statLifetimeLbl: 'Total lifetime donated',
     trackerLink: 'See the full live tracker →',
     causeH2: 'Choosing where it goes, together',
     causeP: "I propose candidates, then make the final decision after talking it over with my parents and mentors.<br>I'll introduce it here as soon as it's decided.",
@@ -528,7 +544,7 @@ var LANG = {
     ruleWinTitle: '第一名', ruleWinDesc: '在比赛中获得第一名时，父母会给我 $100——我自己留 $50，另外 $50 用来捐赠。', ruleWinAmt: '捐赠 $50',
     trackerH2: '至今为止的记录',
     trackerNote: '每一个小鸟球都会实时累积记录在这里。',
-    statPotLbl: '当前累积', statLifetimeLbl: '累计捐赠',
+    statPotLbl: '{year}年捐赠积累', statLifetimeLbl: '总累计捐赠',
     trackerLink: '查看完整实时记录 →',
     causeH2: '一起决定捐赠去向',
     causeP: '由我提出候选名单，再和父母及身边的导师商量后做最终决定。<br>一旦确定，我会在这里介绍。',
@@ -580,7 +596,9 @@ function setLang(lang){
   Object.keys(t).forEach(function(id){
     var el = document.getElementById(id);
     if(!el) return;
-    el.innerHTML = t[id];
+    var val = t[id];
+    if (id === 'statPotLbl') val = val.replace('{year}', new Date().getFullYear());
+    el.innerHTML = val;
   });
   renderTrophyCap();
 }
@@ -594,21 +612,38 @@ async function loadTrackerPreview(){
     var r2 = await fetch(DB + '/gifts.json').then(function(r){ return r.json(); });
     var rounds = r1 ? Object.values(r1) : [];
     var gifts = r2 ? Object.values(r2) : [];
-    gifts.sort(function(a,b){ return a.date < b.date ? -1 : 1; });
 
     liveWinCount = rounds.filter(function(r){ return r.win; }).length;
     renderTrophyCap();
 
-    var lastGiftDate = gifts.length ? gifts[gifts.length-1].date : null;
-    var potTotal = rounds.filter(function(r){ return !lastGiftDate || r.date > lastGiftDate; })
+    var thisYear = String(new Date().getFullYear());
+    var potTotal = rounds.filter(function(r){ return r.date && r.date.slice(0,4) === thisYear; })
                           .reduce(function(s,r){ return s + r.amount; }, 0);
     var lifetimeTotal = gifts.reduce(function(s,g){ return s + g.amount; }, 0);
 
     document.getElementById('statPot').textContent = '$' + Math.round(potTotal).toLocaleString();
     document.getElementById('statLifetime').textContent = '$' + Math.round(lifetimeTotal).toLocaleString();
+
+    var byYear = {};
+    gifts.forEach(function(g){
+      var y = g.date ? g.date.slice(0,4) : '?';
+      byYear[y] = (byYear[y] || 0) + g.amount;
+    });
+    var years = Object.keys(byYear).sort(function(a,b){ return b.localeCompare(a); });
+    var breakdownEl = document.getElementById('yearBreakdown');
+    breakdownEl.innerHTML = years.length
+      ? years.map(function(y){
+          return '<div class="year-row"><span>' + y + '</span><span>$' + Math.round(byYear[y]).toLocaleString() + '</span></div>';
+        }).join('')
+      : '<div class="year-row"><span>—</span><span>$0</span></div>';
   }catch(e){ console.error(e); }
 }
 loadTrackerPreview();
+
+document.getElementById('statLifetimeBox').addEventListener('click', function(){
+  var el = document.getElementById('yearBreakdown');
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+});
 
 // 스크롤 리빌
 var reveals = document.querySelectorAll('.reveal');
