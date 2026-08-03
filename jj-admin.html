@@ -177,8 +177,20 @@ input[type=date],input[type=text],input[type=number]{
     <p class="msg" id="giftMsg">저장됐어요 ✓</p>
   </div>
 
-  <div class="recent">최근 입력한 라운드</div>
+  <div class="recent">최근 입력한 라운드 (탭하면 사진 추가·수정)</div>
   <div id="recentList" style="margin-bottom:20px;"></div>
+
+  <div class="card" id="editCard" style="display:none;">
+    <div class="card-t" id="editCardTitle">라운드 사진 추가</div>
+    <label class="lbl">스코어 사진</label>
+    <div class="upload" id="editUploadBox">
+      <span id="editUploadLabel">📷 탭해서 스코어 사진 올리기</span>
+      <input type="file" accept="image/*" id="editPhotoInput">
+    </div>
+    <button class="savebtn" id="saveEditPhoto">사진 저장하기</button>
+    <p class="msg" id="editMsg">저장됐어요 ✓</p>
+    <p class="toggle-link" id="cancelEdit">취소</p>
+  </div>
 
 </div>
 
@@ -222,6 +234,8 @@ var labels = {birdie:'버디', eagle:'이글', ace:'홀인원'};
 var current = 'birdie';
 var roundPhoto = null;
 var giftPhoto = null;
+var editPhoto = null;
+var currentEditKey = null;
 
 function refreshCounter(){
   document.getElementById('count').textContent = counts[current];
@@ -279,6 +293,11 @@ function init(){
 
   handlePhoto(document.getElementById('photoInput'), function(url){ roundPhoto = url; }, 'uploadBox', 'uploadLabel');
   handlePhoto(document.getElementById('giftPhotoInput'), function(url){ giftPhoto = url; }, 'giftUploadBox', 'giftUploadLabel');
+
+  document.getElementById('saveEditPhoto').addEventListener('click', saveEditPhoto);
+  document.getElementById('cancelEdit').addEventListener('click', function(){
+    document.getElementById('editCard').style.display = 'none';
+  });
 
   document.getElementById('showGift').addEventListener('click', function(){
     var c = document.getElementById('giftCard');
@@ -345,19 +364,57 @@ async function saveGift(){
 async function loadRecent(){
   try{
     var data = await fetch(DB + '/rounds.json').then(function(r){ return r.json(); });
-    var list = data ? Object.values(data) : [];
+    var keys = data ? Object.keys(data) : [];
+    var list = keys.map(function(k){ return Object.assign({_key:k}, data[k]); });
     list.sort(function(a,b){ return a.date < b.date ? 1 : -1; });
     var el = document.getElementById('recentList');
     el.innerHTML = '';
     list.slice(0,5).forEach(function(r){
       var line = document.createElement('div');
       line.className = 'rline';
+      line.style.cursor = 'pointer';
       var tag = r.win ? ' 🏅' : '';
-      line.innerHTML = '<span>' + r.date + (r.course?' · '+r.course:'') + tag + '</span><span>+$' + r.amount + '</span>';
+      var photoTag = r.photo ? ' 📷' : '';
+      line.innerHTML = '<span>' + r.date + (r.course?' · '+r.course:'') + tag + photoTag + '</span><span>+$' + r.amount + '</span>';
+      line.addEventListener('click', function(){ openEditPhoto(r); });
       el.appendChild(line);
     });
   }catch(e){ console.error(e); }
 }
+
+function openEditPhoto(round){
+  currentEditKey = round._key;
+  editPhoto = round.photo || null;
+  document.getElementById('editCardTitle').textContent = round.date + (round.course ? ' · ' + round.course : '') + ' 사진';
+  var box = document.getElementById('editUploadBox');
+  box.innerHTML = '<span id="editUploadLabel">📷 탭해서 스코어 사진 올리기</span><input type="file" accept="image/*" id="editPhotoInput">';
+  if (round.photo){
+    var preview = document.createElement('img');
+    preview.src = round.photo;
+    box.insertBefore(preview, box.firstChild);
+    document.getElementById('editUploadLabel').style.display = 'none';
+  }
+  handlePhoto(document.getElementById('editPhotoInput'), function(url){ editPhoto = url; }, 'editUploadBox', 'editUploadLabel');
+  document.getElementById('editMsg').style.display = 'none';
+  document.getElementById('editCard').style.display = 'block';
+  document.getElementById('editCard').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+async function saveEditPhoto(){
+  if (!currentEditKey) return;
+  var btn = document.getElementById('saveEditPhoto');
+  btn.disabled = true; btn.textContent = '저장 중...';
+  try{
+    await fetch(DB + '/rounds/' + currentEditKey + '.json', {
+      method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({photo: editPhoto})
+    });
+    document.getElementById('editMsg').style.display = 'block';
+    loadRecent();
+    setTimeout(function(){ document.getElementById('editCard').style.display = 'none'; }, 1200);
+  }catch(e){ alert('저장 실패: ' + e.message); }
+  btn.disabled = false; btn.textContent = '사진 저장하기';
+}
+
 
 if (localStorage.getItem('jj_admin_ok') === '1') init();
 </script>
