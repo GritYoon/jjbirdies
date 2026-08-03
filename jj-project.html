@@ -168,6 +168,8 @@ section{position:relative;}
 }
 .stat .num{font-family:'Space Mono',monospace;font-size:34px;font-weight:700;color:var(--navy);}
 .stat .lbl{font-size:12px;color:var(--ink-soft);margin-top:6px;letter-spacing:.03em;}
+.trophy-row{font-size:22px;line-height:1.6;max-width:520px;margin:0 auto 6px;letter-spacing:2px;}
+.trophy-cap{font-size:12px;color:var(--ink-soft);margin-bottom:20px;letter-spacing:.03em;}
 
 /* 스코어카드 스트립 (시그니처 요소) */
 .scorecard-label{
@@ -356,13 +358,21 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
   </div>
 </section>
 
-<!-- ============ 트래커 안내 ============ -->
+<!-- ============ 트래커 ============ -->
 <section class="tracker">
   <div class="wrap" style="text-align:center;">
     <div class="eyebrow">Season Tracker</div>
-    <h2 id="trackerH2">지금 얼마나 쌓였는지 보기</h2>
+    <div class="trophy-row" id="trophyRow"></div>
+    <p class="trophy-cap" id="trophyCap">통산 15승</p>
+    <h2 id="trackerH2">지금까지의 기록</h2>
     <p class="note reveal" id="trackerNote">버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.</p>
-    <a href="jj-tracker.html" class="btn primary" id="trackerLink" style="margin-top:10px;">실시간 기록 보기 →</a>
+
+    <div class="stat-row reveal" style="grid-template-columns:1fr 1fr;">
+      <div class="stat"><div class="num" id="statPot">$0</div><div class="lbl" id="statPotLbl">현재 적립함</div></div>
+      <div class="stat"><div class="num" id="statLifetime">$0</div><div class="lbl" id="statLifetimeLbl">누적 기부액</div></div>
+    </div>
+
+    <a href="jj-tracker.html" class="btn primary" id="trackerLink">실시간 기록 전체 보기 →</a>
   </div>
 </section>
 
@@ -450,9 +460,10 @@ var LANG = {
     ruleEagleTitle: '이글 이상', ruleEagleDesc: '더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.', ruleEagleAmt: '$20',
     ruleAceTitle: '홀인원', ruleAceDesc: '평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.', ruleAceAmt: '$100',
     ruleWinTitle: '우승', ruleWinDesc: '대회에서 1등을 하면 부모님이 $100을 주시는데, 그중 $50은 제 몫으로 갖고 나머지 $50은 기부해요.', ruleWinAmt: '$50 기부',
-    trackerH2: '지금 얼마나 쌓였는지 보기',
+    trackerH2: '지금까지의 기록',
     trackerNote: '버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.',
-    trackerLink: '실시간 기록 보기 →',
+    statPotLbl: '현재 적립함', statLifetimeLbl: '누적 기부액',
+    trackerLink: '실시간 기록 전체 보기 →',
     causeH2: '기부처는 함께 정해요',
     causeP: '제가 후보를 제안하고, 부모님과 주변 멘토들과 상의한 뒤 최종 결정해요.<br>정해지는 대로 이곳에서 소개할게요.',
     causeBadge: '기부처 공개 예정',
@@ -482,9 +493,10 @@ var LANG = {
     ruleEagleTitle: 'Eagle & up', ruleEagleDesc: 'For rarer moments, I put in a little more heart — donating more than a birdie.', ruleEagleAmt: '$20',
     ruleAceTitle: 'Hole-in-one', ruleAceDesc: 'A moment that might happen only a few times in a lifetime. A hole-in-one comes with an especially big donation.', ruleAceAmt: '$100',
     ruleWinTitle: '1st place', ruleWinDesc: "When I finish first in a tournament, my parents give me $100 — I keep $50, and donate the other $50.", ruleWinAmt: '$50 donated',
-    trackerH2: 'See how much has added up',
+    trackerH2: 'The record so far',
     trackerNote: "Every birdie adds up here, updated in real time.",
-    trackerLink: 'See the live tracker →',
+    statPotLbl: 'Current pot', statLifetimeLbl: 'Lifetime donated',
+    trackerLink: 'See the full live tracker →',
     causeH2: 'Choosing where it goes, together',
     causeP: "I propose candidates, then make the final decision after talking it over with my parents and mentors.<br>I'll introduce it here as soon as it's decided.",
     causeBadge: 'Recipient announcement coming soon',
@@ -514,9 +526,10 @@ var LANG = {
     ruleEagleTitle: '老鹰球以上', ruleEagleDesc: '在更特别的时刻，我会投入更多心意——捐出比小鸟球更多的金额。', ruleEagleAmt: '$20',
     ruleAceTitle: '一杆进洞', ruleAceDesc: '这是一生难得几次的时刻。打出一杆进洞时，我会承诺一份格外大的捐赠。', ruleAceAmt: '$100',
     ruleWinTitle: '第一名', ruleWinDesc: '在比赛中获得第一名时，父母会给我 $100——我自己留 $50，另外 $50 用来捐赠。', ruleWinAmt: '捐赠 $50',
-    trackerH2: '看看现在积累了多少',
+    trackerH2: '至今为止的记录',
     trackerNote: '每一个小鸟球都会实时累积记录在这里。',
-    trackerLink: '查看实时记录 →',
+    statPotLbl: '当前累积', statLifetimeLbl: '累计捐赠',
+    trackerLink: '查看完整实时记录 →',
     causeH2: '一起决定捐赠去向',
     causeP: '由我提出候选名单，再和父母及身边的导师商量后做最终决定。<br>一旦确定，我会在这里介绍。',
     causeBadge: '捐赠对象即将公布',
@@ -532,6 +545,25 @@ var LANG = {
     heroCap3: '同一场比赛，和爸爸、Jiseok 一起',
   }
 };
+
+/* ============================================================
+   시즌 트래커 미리보기 (실시간, jj-tracker.html과 같은 Firebase)
+   PRIOR_WINS: 이 프로젝트 시작 전까지의 커리어 통산 우승 횟수
+   ============================================================ */
+var DB = 'https://jj-project-19847-default-rtdb.firebaseio.com';
+var PRIOR_WINS = 15;
+var TROPHY_CAP = {
+  ko: function(n){ return '통산 ' + n + '승'; },
+  en: function(n){ return n + ' career wins'; },
+  zh: function(n){ return '职业生涯 ' + n + ' 胜'; }
+};
+var liveWinCount = 0;
+
+function renderTrophyCap(){
+  var total = PRIOR_WINS + liveWinCount;
+  document.getElementById('trophyRow').textContent = '🏆'.repeat(total);
+  document.getElementById('trophyCap').textContent = TROPHY_CAP[localStorage.getItem('jjp_lang') || 'en'](total);
+}
 
 function setLang(lang){
   localStorage.setItem('jjp_lang', lang);
@@ -550,10 +582,33 @@ function setLang(lang){
     if(!el) return;
     el.innerHTML = t[id];
   });
+  renderTrophyCap();
 }
 
 var initialLang = localStorage.getItem('jjp_lang') || 'en';
 setLang(initialLang);
+
+async function loadTrackerPreview(){
+  try{
+    var r1 = await fetch(DB + '/rounds.json').then(function(r){ return r.json(); });
+    var r2 = await fetch(DB + '/gifts.json').then(function(r){ return r.json(); });
+    var rounds = r1 ? Object.values(r1) : [];
+    var gifts = r2 ? Object.values(r2) : [];
+    gifts.sort(function(a,b){ return a.date < b.date ? -1 : 1; });
+
+    liveWinCount = rounds.filter(function(r){ return r.win; }).length;
+    renderTrophyCap();
+
+    var lastGiftDate = gifts.length ? gifts[gifts.length-1].date : null;
+    var potTotal = rounds.filter(function(r){ return !lastGiftDate || r.date > lastGiftDate; })
+                          .reduce(function(s,r){ return s + r.amount; }, 0);
+    var lifetimeTotal = gifts.reduce(function(s,g){ return s + g.amount; }, 0);
+
+    document.getElementById('statPot').textContent = '$' + Math.round(potTotal).toLocaleString();
+    document.getElementById('statLifetime').textContent = '$' + Math.round(lifetimeTotal).toLocaleString();
+  }catch(e){ console.error(e); }
+}
+loadTrackerPreview();
 
 // 스크롤 리빌
 var reveals = document.querySelectorAll('.reveal');
