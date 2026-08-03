@@ -144,13 +144,8 @@ section{position:relative;}
   color:var(--teal);
 }
 .rule-card .amt.tbd{font-size:14px;color:var(--ink-soft);font-weight:400;letter-spacing:.02em;}
-.rule-card.eagle{background:var(--navy);border-color:var(--navy);}
-.rule-card.eagle *{color:var(--bg) !important;}
-.rule-card.eagle .amt{color:var(--gold-bg) !important;}
-.rule-card.win{background:var(--gold-bg);border-color:var(--gold-bg);}
-.rule-card.win h3,.rule-card.win .par{color:var(--gold-text);}
-.rule-card.win p{color:var(--gold-text);}
-.rule-card.win .amt{color:var(--gold-text);}
+.rule-card.eagle .amt{color:var(--teal);}
+.rule-card.win .amt{color:var(--teal);}
 
 /* ============ 트래커 ============ */
 .tracker{padding:110px 0;background:var(--card);}
@@ -287,15 +282,15 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
   <div class="hero-gallery">
     <div class="hero-gallery-item">
       <img id="heroPhotoImg" src="jj-hero-photo.jpg" alt="지완이, AJGA 주니어 골프 대회에서">
-      <div class="cap" id="heroCap1">첫 AJGA 대회에 출전했을 때</div>
+      <div class="cap" id="heroCap1">첫 AJGA 대회에 출전했을 때 (2026)</div>
     </div>
     <div class="hero-gallery-item">
       <img src="jj-hero-2.jpg" alt="지완이, US Kids Golf 월드 챔피언십에서">
-      <div class="cap" id="heroCap2">US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서</div>
+      <div class="cap" id="heroCap2">US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서 (2022)</div>
     </div>
     <div class="hero-gallery-item">
       <img src="jj-hero-3.jpg" alt="지완이, 아빠, 지석이가 같은 대회에서">
-      <div class="cap" id="heroCap3">첫 US Kids Golf 월드 챔피언십, 아빠·지석이와 함께</div>
+      <div class="cap" id="heroCap3">첫 US Kids Golf 월드 챔피언십, 아빠·지석이와 함께 (2022)</div>
     </div>
   </div>
   <div class="scroll-cue">↓ scroll</div>
@@ -358,9 +353,9 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
         <div class="amt" id="ruleAceAmt">$100</div>
       </div>
       <div class="rule-card win">
-        <div class="par">🏅 TOURNAMENT · 1ST</div>
+        <div class="par">TOURNAMENT · 1ST</div>
         <h3 id="ruleWinTitle">우승</h3>
-        <p id="ruleWinDesc">대회에서 1등을 하면 부모님이 $100을 주시는데, 그중 $50은 제 몫으로 갖고 나머지 $50은 기부해요.</p>
+        <p id="ruleWinDesc">대회에서 1등을 하면, 부모님도 함께 $50을 기부해요.</p>
         <div class="amt" id="ruleWinAmt">$50 기부</div>
       </div>
     </div>
@@ -475,7 +470,7 @@ var LANG = {
     ruleBirdieTitle: '버디', ruleBirdieDesc: '한 홀에서 파보다 한 타 적게 치면, 그 순간의 기쁨을 기부로 나눕니다.', ruleBirdieAmt: '$10',
     ruleEagleTitle: '이글 이상', ruleEagleDesc: '더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.', ruleEagleAmt: '$20',
     ruleAceTitle: '홀인원', ruleAceDesc: '평생 몇 번 없을 순간이니까요. 홀인원을 하면 특별히 큰 기부를 약속합니다.', ruleAceAmt: '$100',
-    ruleWinTitle: '우승', ruleWinDesc: '대회에서 1등을 하면 부모님이 $100을 주시는데, 그중 $50은 제 몫으로 갖고 나머지 $50은 기부해요.', ruleWinAmt: '$50 기부',
+    ruleWinTitle: '우승', ruleWinDesc: '대회에서 1등을 하면, 부모님도 함께 $50을 기부해요.', ruleWinAmt: '$50 기부',
     trackerH2: '지금까지의 기록',
     trackerNote: '버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.',
     statPotLbl: '{year}년 기부 적립금', statLifetimeLbl: '총 누적 기부액',
@@ -490,9 +485,9 @@ var LANG = {
     igLink: '📷 인스타그램 팔로우', joinLink: '알림 받기',
     altHero: '지완이, AJGA 주니어 골프 대회에서', altGolfStart: '지완이가 골프를 처음 시작했을 때',
     altStory: '지완이의 봉사활동 기록', altJiwan: '지완', altJiseok: '지석',
-    heroCap1: '첫 AJGA 대회에 출전했을 때',
-    heroCap2: 'US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서',
-    heroCap3: '같은 대회에서, 아빠·지석이와 함께',
+    heroCap1: '첫 AJGA 대회에 출전했을 때 (2026)',
+    heroCap2: 'US Kids Golf 월드 챔피언십에 초청받아서, 파인허스트에서 (2022)',
+    heroCap3: '첫 US Kids Golf 월드 챔피언십, 아빠·지석이와 함께 (2022)',
   },
   en: {
     heroPara: "Every time I make a birdie,<br>I donate from my own allowance.<br>Not golf for the score, but golf for giving.<br>That's how JJ Birdies began.",
@@ -508,7 +503,7 @@ var LANG = {
     ruleBirdieTitle: 'Birdie', ruleBirdieDesc: 'When I finish a hole one stroke under par, I share that moment of joy through a donation.', ruleBirdieAmt: '$10',
     ruleEagleTitle: 'Eagle & up', ruleEagleDesc: 'For rarer moments, I put in a little more heart — donating more than a birdie.', ruleEagleAmt: '$20',
     ruleAceTitle: 'Hole-in-one', ruleAceDesc: 'A moment that might happen only a few times in a lifetime. A hole-in-one comes with an especially big donation.', ruleAceAmt: '$100',
-    ruleWinTitle: '1st place', ruleWinDesc: "When I finish first in a tournament, my parents give me $100 — I keep $50, and donate the other $50.", ruleWinAmt: '$50 donated',
+    ruleWinTitle: '1st place', ruleWinDesc: "When I finish first in a tournament, my parents join in with a $50 donation too.", ruleWinAmt: '$50 donated',
     trackerH2: 'The record so far',
     trackerNote: "Every birdie adds up here, updated in real time.",
     statPotLbl: '{year} donations', statLifetimeLbl: 'Total lifetime donated',
@@ -523,9 +518,9 @@ var LANG = {
     igLink: '📷 Follow on Instagram', joinLink: 'Get notified',
     altHero: 'Jiwan at an AJGA junior golf tournament', altGolfStart: 'When Jiwan first started golf',
     altStory: "Jiwan's volunteer record", altJiwan: 'Jiwan', altJiseok: 'Jiseok',
-    heroCap1: 'Competing in his first AJGA tournament',
-    heroCap2: 'Invited to the US Kids Golf World Championship, at Pinehurst',
-    heroCap3: 'Same tournament, with Dad and Jiseok',
+    heroCap1: 'Competing in his first AJGA tournament (2026)',
+    heroCap2: 'Invited to the US Kids Golf World Championship, at Pinehurst (2022)',
+    heroCap3: 'Same tournament, with Dad and Jiseok (2022)',
   },
   zh: {
     heroPara: '每当我打出一个小鸟球，<br>我都会从自己的零花钱里捐出一笔钱。<br>这不是为了成绩的高尔夫，而是为了分享的高尔夫。<br>JJ Birdies 就是这样开始的。',
@@ -541,7 +536,7 @@ var LANG = {
     ruleBirdieTitle: '小鸟球', ruleBirdieDesc: '在一个洞打出比标准杆少一杆的成绩时，我会用捐赠来分享那一刻的喜悦。', ruleBirdieAmt: '$10',
     ruleEagleTitle: '老鹰球以上', ruleEagleDesc: '在更特别的时刻，我会投入更多心意——捐出比小鸟球更多的金额。', ruleEagleAmt: '$20',
     ruleAceTitle: '一杆进洞', ruleAceDesc: '这是一生难得几次的时刻。打出一杆进洞时，我会承诺一份格外大的捐赠。', ruleAceAmt: '$100',
-    ruleWinTitle: '第一名', ruleWinDesc: '在比赛中获得第一名时，父母会给我 $100——我自己留 $50，另外 $50 用来捐赠。', ruleWinAmt: '捐赠 $50',
+    ruleWinTitle: '第一名', ruleWinDesc: '在比赛中获得第一名时，父母也会一起捐赠 $50。', ruleWinAmt: '捐赠 $50',
     trackerH2: '至今为止的记录',
     trackerNote: '每一个小鸟球都会实时累积记录在这里。',
     statPotLbl: '{year}年捐赠积累', statLifetimeLbl: '总累计捐赠',
@@ -556,9 +551,9 @@ var LANG = {
     igLink: '📷 关注 Instagram', joinLink: '获取通知',
     altHero: 'Jiwan 在 AJGA 青少年高尔夫锦标赛现场', altGolfStart: 'Jiwan 刚开始打高尔夫的时候',
     altStory: 'Jiwan 的志愿服务记录', altJiwan: 'Jiwan', altJiseok: 'Jiseok',
-    heroCap1: '第一次参加 AJGA 比赛',
-    heroCap2: '受邀参加 US Kids Golf 世界锦标赛，在松树谷（Pinehurst）',
-    heroCap3: '同一场比赛，和爸爸、Jiseok 一起',
+    heroCap1: '第一次参加 AJGA 比赛（2026年）',
+    heroCap2: '受邀参加 US Kids Golf 世界锦标赛，在松树谷（Pinehurst）（2022年）',
+    heroCap3: '同一场比赛，和爸爸、Jiseok 一起（2022年）',
   }
 };
 
