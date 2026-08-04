@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JJ Birdies — 입력</title>
+<title>JJ Birdies — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -20,6 +20,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif
 h1{font-family:'Noto Serif KR',serif;}
 .mono{font-family:'Space Mono',monospace;}
 .wrap{max-width:440px;margin:0 auto;padding:24px 18px 60px;}
+
+.langbar{display:flex;justify-content:center;gap:6px;margin-bottom:16px;}
+.langbtn{
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;
+  background:#fff;border:1px solid var(--line);color:var(--ink-soft);
+  padding:6px 12px;border-radius:99px;cursor:pointer;
+}
+.langbtn.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700;}
 
 /* PIN 게이트 */
 #gate{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:999;padding:24px;}
@@ -102,7 +110,7 @@ input[type=date],input[type=text],input[type=number]{
 <div id="gate">
   <div class="box">
     <h1>JJ Birdies</h1>
-    <p>가족만 들어올 수 있는 입력 페이지예요</p>
+    <p id="gateDesc">가족만 들어올 수 있는 입력 페이지예요</p>
     <input type="password" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••">
     <button id="pinBtn">입장</button>
     <p id="pinErr">비밀번호가 틀렸어요</p>
@@ -111,45 +119,50 @@ input[type=date],input[type=text],input[type=number]{
 
 <div class="wrap" id="main" style="display:none;">
 
+  <div class="langbar">
+    <button class="langbtn" data-lang="ko" onclick="setLang('ko')">한국어</button>
+    <button class="langbtn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+
   <div class="head">
     <div class="mark">JJ Birdies · Admin</div>
-    <h1>기록 입력하기</h1>
+    <h1 id="headTitle">기록 입력하기</h1>
   </div>
 
   <!-- 라운드 입력 -->
   <div class="card">
-    <div class="card-t">라운드 기록하기</div>
+    <div class="card-t" id="cardTitleRound">라운드 기록하기</div>
 
     <div class="row2">
-      <div><label class="lbl">날짜</label><input type="date" id="rDate"></div>
-      <div><label class="lbl">코스</label><input type="text" id="rCourse" placeholder="OO 컨트리클럽"></div>
+      <div><label class="lbl" id="lblDate1">날짜</label><input type="date" id="rDate"></div>
+      <div><label class="lbl" id="lblCourse">코스</label><input type="text" id="rCourse"></div>
     </div>
 
-    <label class="lbl">어떤 성과인가요?</label>
+    <label class="lbl" id="lblPerf">어떤 성과인가요?</label>
     <div class="tabs" id="tabs">
-      <div class="tab on" data-t="birdie">버디 · $10</div>
-      <div class="tab" data-t="eagle">이글 · $20</div>
-      <div class="tab" data-t="ace">홀인원 · $100</div>
+      <div class="tab on" data-t="birdie"></div>
+      <div class="tab" data-t="eagle"></div>
+      <div class="tab" data-t="ace"></div>
     </div>
     <div class="counter">
       <button id="minus">−</button>
       <span id="count">0</span>
       <button id="plus">+</button>
     </div>
-    <div class="counter-cap"><span id="curLabel">버디</span> 개수</div>
+    <div class="counter-cap"><span id="curLabel">버디</span> <span id="countSuffix">개수</span></div>
 
     <label class="winbox">
       <input type="checkbox" id="winChk">
-      <span>🏅 이번 라운드, 1위 했어요 · $50</span>
+      <span id="winLabel">🏅 이번 라운드, 1위 했어요 · $50</span>
     </label>
 
-    <label class="lbl">스코어 사진 (선택)</label>
+    <label class="lbl" id="lblPhoto">스코어 사진 (선택)</label>
     <div class="upload" id="uploadBox">
       <span id="uploadLabel">📷 탭해서 스코어 사진 올리기</span>
       <input type="file" accept="image/*" id="photoInput">
     </div>
 
-    <div class="amtrow"><span>적립 금액</span><span id="roundAmt">$0</span></div>
+    <div class="amtrow"><span id="lblAmt">적립 금액</span><span id="roundAmt">$0</span></div>
 
     <button class="savebtn" id="saveRound">라운드 저장하기</button>
     <p class="msg" id="roundMsg">저장됐어요 ✓</p>
@@ -159,16 +172,16 @@ input[type=date],input[type=text],input[type=number]{
 
   <!-- 기부 입력 (숨김) -->
   <div class="card" id="giftCard" style="display:none;">
-    <div class="card-t">기부 기록 추가하기</div>
+    <div class="card-t" id="cardTitleGift">기부 기록 추가하기</div>
     <div class="row2">
-      <div><label class="lbl">날짜</label><input type="date" id="gDate"></div>
-      <div><label class="lbl">금액</label><input type="number" id="gAmt" placeholder="0"></div>
+      <div><label class="lbl" id="lblDate2">날짜</label><input type="date" id="gDate"></div>
+      <div><label class="lbl" id="lblAmt2">금액</label><input type="number" id="gAmt" placeholder="0"></div>
     </div>
-    <label class="lbl">기부처</label>
-    <input type="text" id="gOrg" placeholder="단체 이름" style="margin-bottom:14px;">
-    <label class="lbl">한마디 (선택)</label>
-    <input type="text" id="gCaption" placeholder="짧은 코멘트" style="margin-bottom:14px;">
-    <label class="lbl">전달 사진 (선택)</label>
+    <label class="lbl" id="lblOrg">기부처</label>
+    <input type="text" id="gOrg" style="margin-bottom:14px;">
+    <label class="lbl" id="lblCaption">한마디 (선택)</label>
+    <input type="text" id="gCaption" style="margin-bottom:14px;">
+    <label class="lbl" id="lblGiftPhoto">전달 사진 (선택)</label>
     <div class="upload" id="giftUploadBox">
       <span id="giftUploadLabel">📷 탭해서 전달 사진 올리기</span>
       <input type="file" accept="image/*" id="giftPhotoInput">
@@ -177,12 +190,12 @@ input[type=date],input[type=text],input[type=number]{
     <p class="msg" id="giftMsg">저장됐어요 ✓</p>
   </div>
 
-  <div class="recent">최근 입력한 라운드 (탭하면 사진 추가·수정)</div>
+  <div class="recent" id="recentLabel">최근 입력한 라운드 (탭하면 사진 추가·수정)</div>
   <div id="recentList" style="margin-bottom:20px;"></div>
 
   <div class="card" id="editCard" style="display:none;">
     <div class="card-t" id="editCardTitle">라운드 사진 추가</div>
-    <label class="lbl">스코어 사진</label>
+    <label class="lbl" id="lblEditPhoto">스코어 사진</label>
     <div class="upload" id="editUploadBox">
       <span id="editUploadLabel">📷 탭해서 스코어 사진 올리기</span>
       <input type="file" accept="image/*" id="editPhotoInput">
@@ -199,8 +212,98 @@ input[type=date],input[type=text],input[type=number]{
    비밀번호는 여기서 바꾸세요 (4자리)
    ============================================================ */
 var PIN = '1234';
-
 var DB = 'https://jj-project-19847-default-rtdb.firebaseio.com';
+
+var LANG = {
+  ko: {
+    gateDesc: '가족만 들어올 수 있는 입력 페이지예요', pinBtn: '입장', pinErr: '비밀번호가 틀렸어요',
+    headTitle: '기록 입력하기', cardTitleRound: '라운드 기록하기',
+    lblDate1: '날짜', lblCourse: '코스', coursePh: 'OO 컨트리클럽',
+    lblPerf: '어떤 성과인가요?',
+    tabBirdie: '버디 · $10', tabEagle: '이글 · $20', tabAce: '홀인원 · $100',
+    countSuffix: '개수', labels: {birdie:'버디', eagle:'이글', ace:'홀인원'},
+    winLabel: '🏅 이번 라운드, 1위 했어요 · $50',
+    lblPhoto: '스코어 사진 (선택)', uploadLabel: '📷 탭해서 스코어 사진 올리기',
+    lblAmt: '적립 금액', saveRound: '라운드 저장하기', saving: '저장 중...', roundMsg: '저장됐어요 ✓',
+    showGift: '+ 기부 기록 추가하기', cardTitleGift: '기부 기록 추가하기',
+    lblDate2: '날짜', lblAmt2: '금액', lblOrg: '기부처', orgPh: '단체 이름',
+    lblCaption: '한마디 (선택)', captionPh: '짧은 코멘트',
+    lblGiftPhoto: '전달 사진 (선택)', giftUploadLabel: '📷 탭해서 전달 사진 올리기',
+    saveGift: '기부 기록 저장하기', giftMsg: '저장됐어요 ✓',
+    recentLabel: '최근 입력한 라운드 (탭하면 사진 추가·수정)',
+    editCardTitle: '라운드 사진 추가', editPhotoSuffix: '사진',
+    lblEditPhoto: '스코어 사진', saveEditPhoto: '사진 저장하기', editMsg: '저장됐어요 ✓', cancelEdit: '취소',
+    saveFail: '저장 실패: '
+  },
+  en: {
+    gateDesc: 'Family-only page for logging records', pinBtn: 'Enter', pinErr: 'Wrong PIN',
+    headTitle: 'Log a Record', cardTitleRound: 'Log a Round',
+    lblDate1: 'Date', lblCourse: 'Course', coursePh: 'Course name',
+    lblPerf: 'What happened?',
+    tabBirdie: 'Birdie · $10', tabEagle: 'Eagle+ · $20', tabAce: 'Hole-in-one · $100',
+    countSuffix: 'count', labels: {birdie:'Birdie', eagle:'Eagle+', ace:'Hole-in-one'},
+    winLabel: '🏅 Finished 1st this round · $50',
+    lblPhoto: 'Score photo (optional)', uploadLabel: '📷 Tap to add a score photo',
+    lblAmt: 'Amount raised', saveRound: 'Save round', saving: 'Saving...', roundMsg: 'Saved ✓',
+    showGift: '+ Add a donation record', cardTitleGift: 'Add a Donation',
+    lblDate2: 'Date', lblAmt2: 'Amount', lblOrg: 'Recipient', orgPh: 'Organization name',
+    lblCaption: 'Note (optional)', captionPh: 'Short note',
+    lblGiftPhoto: 'Delivery photo (optional)', giftUploadLabel: '📷 Tap to add a delivery photo',
+    saveGift: 'Save donation', giftMsg: 'Saved ✓',
+    recentLabel: 'Recent rounds (tap to add/edit photo)',
+    editCardTitle: 'Add round photo', editPhotoSuffix: 'photo',
+    lblEditPhoto: 'Score photo', saveEditPhoto: 'Save photo', editMsg: 'Saved ✓', cancelEdit: 'Cancel',
+    saveFail: 'Save failed: '
+  }
+};
+var currentLang = localStorage.getItem('jj_admin_lang') || 'ko';
+
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('jj_admin_lang', lang);
+  document.querySelectorAll('.langbtn').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+  });
+  var t = LANG[lang];
+  document.getElementById('gateDesc').textContent = t.gateDesc;
+  document.getElementById('pinBtn').textContent = t.pinBtn;
+  document.getElementById('pinErr').textContent = t.pinErr;
+  document.getElementById('headTitle').textContent = t.headTitle;
+  document.getElementById('cardTitleRound').textContent = t.cardTitleRound;
+  document.getElementById('lblDate1').textContent = t.lblDate1;
+  document.getElementById('lblCourse').textContent = t.lblCourse;
+  document.getElementById('rCourse').placeholder = t.coursePh;
+  document.getElementById('lblPerf').textContent = t.lblPerf;
+  document.querySelector('.tab[data-t="birdie"]').textContent = t.tabBirdie;
+  document.querySelector('.tab[data-t="eagle"]').textContent = t.tabEagle;
+  document.querySelector('.tab[data-t="ace"]').textContent = t.tabAce;
+  document.getElementById('countSuffix').textContent = t.countSuffix;
+  document.getElementById('winLabel').textContent = t.winLabel;
+  document.getElementById('lblPhoto').textContent = t.lblPhoto;
+  if(document.getElementById('uploadLabel')) document.getElementById('uploadLabel').textContent = t.uploadLabel;
+  document.getElementById('lblAmt').textContent = t.lblAmt;
+  document.getElementById('saveRound').textContent = t.saveRound;
+  document.getElementById('roundMsg').textContent = t.roundMsg;
+  document.getElementById('showGift').textContent = t.showGift;
+  document.getElementById('cardTitleGift').textContent = t.cardTitleGift;
+  document.getElementById('lblDate2').textContent = t.lblDate2;
+  document.getElementById('lblAmt2').textContent = t.lblAmt2;
+  document.getElementById('lblOrg').textContent = t.lblOrg;
+  document.getElementById('gOrg').placeholder = t.orgPh;
+  document.getElementById('lblCaption').textContent = t.lblCaption;
+  document.getElementById('gCaption').placeholder = t.captionPh;
+  document.getElementById('lblGiftPhoto').textContent = t.lblGiftPhoto;
+  if(document.getElementById('giftUploadLabel')) document.getElementById('giftUploadLabel').textContent = t.giftUploadLabel;
+  document.getElementById('saveGift').textContent = t.saveGift;
+  document.getElementById('giftMsg').textContent = t.giftMsg;
+  document.getElementById('recentLabel').textContent = t.recentLabel;
+  document.getElementById('lblEditPhoto').textContent = t.lblEditPhoto;
+  document.getElementById('saveEditPhoto').textContent = t.saveEditPhoto;
+  document.getElementById('editMsg').textContent = t.editMsg;
+  document.getElementById('cancelEdit').textContent = t.cancelEdit;
+  document.getElementById('curLabel').textContent = t.labels[current];
+  loadRecent();
+}
 
 /* ---------- PIN 게이트 ---------- */
 if (localStorage.getItem('jj_admin_ok') === '1') {
@@ -221,16 +324,13 @@ function checkPin(){
   }
 }
 
-/* ---------- 오늘 날짜 기본값 ---------- */
 function todayStr(){
   var d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 
-/* ---------- 라운드 입력 상태 ---------- */
 var counts = {birdie:0, eagle:0, ace:0};
 var rates = {birdie:10, eagle:20, ace:100};
-var labels = {birdie:'버디', eagle:'이글', ace:'홀인원'};
 var current = 'birdie';
 var roundPhoto = null;
 var giftPhoto = null;
@@ -239,13 +339,12 @@ var currentEditKey = null;
 
 function refreshCounter(){
   document.getElementById('count').textContent = counts[current];
-  document.getElementById('curLabel').textContent = labels[current];
+  document.getElementById('curLabel').textContent = LANG[currentLang].labels[current];
   var w = document.getElementById('winChk').checked;
   var total = counts.birdie*rates.birdie + counts.eagle*rates.eagle + counts.ace*rates.ace + (w?50:0);
   document.getElementById('roundAmt').textContent = '$' + total.toLocaleString();
 }
 
-/* ---------- 사진 리사이즈 후 base64로 저장 ---------- */
 function handlePhoto(fileInput, callback, boxId, labelId){
   fileInput.addEventListener('change', function(){
     var file = fileInput.files[0];
@@ -263,11 +362,12 @@ function handlePhoto(fileInput, callback, boxId, labelId){
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         var dataUrl = canvas.toDataURL('image/jpeg', 0.6);
         callback(dataUrl);
-        document.getElementById(boxId).querySelector('img,span')?.remove();
+        var existing = document.getElementById(boxId).querySelector('img,span');
+        if (existing) existing.remove();
         var preview = document.createElement('img');
         preview.src = dataUrl;
         document.getElementById(boxId).insertBefore(preview, document.getElementById(boxId).firstChild);
-        document.getElementById(labelId).style.display = 'none';
+        if(document.getElementById(labelId)) document.getElementById(labelId).style.display = 'none';
       };
       img.src = e.target.result;
     };
@@ -307,11 +407,15 @@ function init(){
   document.getElementById('saveRound').addEventListener('click', saveRound);
   document.getElementById('saveGift').addEventListener('click', saveGift);
 
+  document.querySelectorAll('.langbtn').forEach(function(b){
+    b.classList.toggle('on', b.getAttribute('data-lang') === currentLang);
+  });
+  setLang(currentLang);
   refreshCounter();
-  loadRecent();
 }
 
 async function saveRound(){
+  var t = LANG[currentLang];
   var w = document.getElementById('winChk').checked;
   var amount = counts.birdie*rates.birdie + counts.eagle*rates.eagle + counts.ace*rates.ace + (w?50:0);
   var entry = {
@@ -324,7 +428,7 @@ async function saveRound(){
     photo: roundPhoto || null
   };
   var btn = document.getElementById('saveRound');
-  btn.disabled = true; btn.textContent = '저장 중...';
+  btn.disabled = true; btn.textContent = t.saving;
   try{
     await fetch(DB + '/rounds.json', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(entry) });
     document.getElementById('roundMsg').style.display = 'block';
@@ -335,11 +439,12 @@ async function saveRound(){
     refreshCounter();
     loadRecent();
     setTimeout(function(){ document.getElementById('roundMsg').style.display = 'none'; }, 2500);
-  }catch(e){ alert('저장 실패: ' + e.message); }
-  btn.disabled = false; btn.textContent = '라운드 저장하기';
+  }catch(e){ alert(t.saveFail + e.message); }
+  btn.disabled = false; btn.textContent = t.saveRound;
 }
 
 async function saveGift(){
+  var t = LANG[currentLang];
   var entry = {
     date: document.getElementById('gDate').value,
     org: document.getElementById('gOrg').value,
@@ -348,7 +453,7 @@ async function saveGift(){
     media: giftPhoto || null
   };
   var btn = document.getElementById('saveGift');
-  btn.disabled = true; btn.textContent = '저장 중...';
+  btn.disabled = true; btn.textContent = t.saving;
   try{
     await fetch(DB + '/gifts.json', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(entry) });
     document.getElementById('giftMsg').style.display = 'block';
@@ -357,8 +462,8 @@ async function saveGift(){
     document.getElementById('gAmt').value = '';
     giftPhoto = null;
     setTimeout(function(){ document.getElementById('giftMsg').style.display = 'none'; }, 2500);
-  }catch(e){ alert('저장 실패: ' + e.message); }
-  btn.disabled = false; btn.textContent = '기부 기록 저장하기';
+  }catch(e){ alert(t.saveFail + e.message); }
+  btn.disabled = false; btn.textContent = t.saveGift;
 }
 
 async function loadRecent(){
@@ -383,11 +488,12 @@ async function loadRecent(){
 }
 
 function openEditPhoto(round){
+  var t = LANG[currentLang];
   currentEditKey = round._key;
   editPhoto = round.photo || null;
-  document.getElementById('editCardTitle').textContent = round.date + (round.course ? ' · ' + round.course : '') + ' 사진';
+  document.getElementById('editCardTitle').textContent = round.date + (round.course ? ' · ' + round.course : '') + ' ' + t.editPhotoSuffix;
   var box = document.getElementById('editUploadBox');
-  box.innerHTML = '<span id="editUploadLabel">📷 탭해서 스코어 사진 올리기</span><input type="file" accept="image/*" id="editPhotoInput">';
+  box.innerHTML = '<span id="editUploadLabel">'+t.uploadLabel+'</span><input type="file" accept="image/*" id="editPhotoInput">';
   if (round.photo){
     var preview = document.createElement('img');
     preview.src = round.photo;
@@ -401,9 +507,10 @@ function openEditPhoto(round){
 }
 
 async function saveEditPhoto(){
+  var t = LANG[currentLang];
   if (!currentEditKey) return;
   var btn = document.getElementById('saveEditPhoto');
-  btn.disabled = true; btn.textContent = '저장 중...';
+  btn.disabled = true; btn.textContent = t.saving;
   try{
     await fetch(DB + '/rounds/' + currentEditKey + '.json', {
       method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({photo: editPhoto})
@@ -411,10 +518,9 @@ async function saveEditPhoto(){
     document.getElementById('editMsg').style.display = 'block';
     loadRecent();
     setTimeout(function(){ document.getElementById('editCard').style.display = 'none'; }, 1200);
-  }catch(e){ alert('저장 실패: ' + e.message); }
-  btn.disabled = false; btn.textContent = '사진 저장하기';
+  }catch(e){ alert(t.saveFail + e.message); }
+  btn.disabled = false; btn.textContent = t.saveEditPhoto;
 }
-
 
 if (localStorage.getItem('jj_admin_ok') === '1') init();
 </script>
