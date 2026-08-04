@@ -418,7 +418,8 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
   <div class="wrap" style="text-align:center;">
     <div class="eyebrow">Season Tracker</div>
     <div class="trophy-row" id="trophyRow"></div>
-    <p class="trophy-cap" id="trophyCap">통산 15승</p>
+    <p class="trophy-cap" id="trophyCap" style="margin-bottom:6px;">통산 15승</p>
+    <p class="trophy-cap" id="trophySubCap">💛 JJ Birdies는 2026년부터 시작됩니다</p>
     <h2 id="trackerH2">지금까지의 기록</h2>
     <p class="note reveal" id="trackerNote">버디 하나하나가 쌓여서, 실시간으로 기록되고 있어요.</p>
 
@@ -620,16 +621,23 @@ var LANG = {
 var DB = 'https://jj-project-19847-default-rtdb.firebaseio.com';
 var PRIOR_WINS = 15;
 var TROPHY_CAP = {
-  ko: function(n){ return '통산 ' + n + '승'; },
-  en: function(n){ return n + ' career wins'; },
-  zh: function(n){ return '职业生涯 ' + n + ' 胜'; }
+  ko: function(n){ return '지금까지의 우승: ' + n + '승'; },
+  en: function(n){ return 'Wins so far: ' + n; },
+  zh: function(n){ return '至今为止的胜场：' + n; }
+};
+var TROPHY_SUBCAP = {
+  ko: '💛 JJ Birdies는 2026년부터 시작됩니다',
+  en: '💛 JJ Birdies begins in 2026',
+  zh: '💛 JJ Birdies 从 2026 年开始'
 };
 var liveWinCount = 0;
 
 function renderTrophyCap(){
   var total = PRIOR_WINS + liveWinCount;
+  var lang = localStorage.getItem('jjp_lang') || 'en';
   document.getElementById('trophyRow').textContent = '🏆'.repeat(total);
-  document.getElementById('trophyCap').textContent = TROPHY_CAP[localStorage.getItem('jjp_lang') || 'en'](total);
+  document.getElementById('trophyCap').textContent = TROPHY_CAP[lang](total);
+  document.getElementById('trophySubCap').textContent = TROPHY_SUBCAP[lang];
 }
 
 function setLang(lang){
