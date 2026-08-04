@@ -106,6 +106,10 @@ section{position:relative;}
 .story-photos-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px;}
 @media (max-width:560px){.story-photos-grid{grid-template-columns:1fr;}}
 .story-photos-grid .story-photo{margin-top:0;height:100%;object-fit:cover;aspect-ratio:4/5;}
+.year-timeline-t{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin:40px 0 14px;font-weight:700;}
+.year-timeline{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
+.year-item img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;border:1px solid var(--line);}
+.year-item .year-label{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--navy);margin-top:6px;text-align:center;}
 .photo-slot{
   border:1px dashed var(--line);border-radius:10px;background:var(--bg-2);
   display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
@@ -304,7 +308,7 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
       <h2 id="storyH2">골프가<br>가르쳐준 것</h2>
     </div>
     <div class="story-body reveal">
-      <p id="storyP1">저는 초등학교에 들어가기 전부터 봉사를 해왔어요.<br>
+      <p id="storyP1">저는 초등학교에 들어가기 전인 2019년부터 지금까지 봉사를 해오고 있어요.<br>
       홈리스 분들을 위해 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요.<br>
       대통령 봉사상도 여러 번 받을 만큼 오래 이어온 일이었지만, 사실 그땐 부모님이 하자고 하셔서 따라간 거였어요.</p>
       <p id="storyP2">그런데 이상하게도, 제가 가장 오래 해온 골프만큼은 한 번도 그렇지 않았어요.<br>
@@ -328,6 +332,13 @@ footer .foot-sub{font-size:12px;color:rgba(244,248,250,.6);}
         <div>
           <img class="story-photo" id="storyPhotoImg" src="jj-story-photo.jpg" alt="지완이의 봉사활동 기록">
           <div class="story-photo-cap" id="photoCap2">초등학교 입학 전부터 이어온 봉사의 기록들</div>
+        </div>
+      </div>
+      <div class="year-timeline-t" id="yearTimelineT">연도별 기록</div>
+      <div class="year-timeline">
+        <div class="year-item">
+          <img src="jj-year-2018.jpg" alt="2018년 봉사 활동">
+          <div class="year-label">2018</div>
         </div>
       </div>
     </div>
@@ -466,13 +477,14 @@ var LANG = {
   ko: {
     heroPara: '제가 버디를 잡을 때마다,<br>제 용돈에서 스스로 기부합니다.<br>성적을 위한 골프가 아니라, 나눔을 위한 골프.<br>JJ Birdies는 그렇게 시작됐어요.',
     storyH2: '골프가<br>가르쳐준 것',
-    storyP1: '저는 초등학교에 들어가기 전부터 봉사를 해왔어요.<br>홈리스 분들을 위해 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요.<br>대통령 봉사상도 여러 번 받을 만큼 오래 이어온 일이었지만, 사실 그땐 부모님이 하자고 하셔서 따라간 거였어요.',
+    storyP1: '저는 초등학교에 들어가기 전부터, 8년째 봉사를 해오고 있어요.<br>홈리스 분들을 위해 아침을 만들고, 나무를 심고, 해변을 청소하고, 알츠하이머를 앓는 어르신들 곁을 지켰어요.<br>대통령 봉사상도 여러 번 받을 만큼 오래 이어온 일이었지만, 사실 그땐 부모님이 하자고 하셔서 따라간 거였어요.',
     storyP2: '그런데 이상하게도, 제가 가장 오래 해온 골프만큼은 한 번도 그렇지 않았어요.<br>성적, 순위 — 여느 또래들처럼 저도 그랬어요. 결국 다 저 한 사람을 향한 숫자였고, 누군가를 위해 친 적은 없었죠.',
     storyP3: '고등학생이 되면서, 처음으로 그게 마음에 걸렸어요.<br>남을 돕는 법은 이미 오래전부터 배워왔는데, 정작 제가 제일 잘하는 일에는 그 마음을 한 번도 담아본 적이 없더라고요.<br>그래서 이번엔 누가 시켜서가 아니라, 제가 스스로 방법을 찾아보기로 했어요.<br>버디를 할 때마다 제 용돈에서 정해진 금액을 기부하는 것, 그게 제가 찾은 답이었어요.',
     storyP4: '동생 지석이에게도 같이 하자고 했어요.<br>늘 같이 봉사해온 동생이라, 이번에도 망설임 없이 함께해줬고요.<br>형은 그린 위에서, 동생은 그 옆에서 — 서로 다른 자리에서 하나의 마음을 만들어가는 프로젝트, 그게 JJ Birdies예요.',
     pullQuote: '"그동안 부모님 도움으로 세상을 도왔다면, 이제는 제 스스로 도와보고 싶어요."',
     photoCap1: '골프를 처음 시작했을 때',
     photoCap2: '초등학교 입학 전부터 이어온 봉사의 기록들',
+    yearTimelineT: '연도별 기록',
     rulesH2: '버디 하나, 마음 하나',
     ruleBirdieTitle: '버디', ruleBirdieDesc: '한 홀에서 파보다 한 타 적게 치면, 그 순간의 기쁨을 기부로 나눕니다.', ruleBirdieAmt: '$10',
     ruleEagleTitle: '이글 이상', ruleEagleDesc: '더 특별한 순간에는, 더 큰 마음을 담습니다. 버디보다 많은 금액을 기부해요.', ruleEagleAmt: '$20',
@@ -500,13 +512,14 @@ var LANG = {
   en: {
     heroPara: "Every time I make a birdie,<br>I donate from my own allowance.<br>Not golf for the score, but golf for giving.<br>That's how JJ Birdies began.",
     storyH2: 'What golf<br>taught me',
-    storyP1: "I've been volunteering since before I started elementary school.<br>Making breakfast for people experiencing homelessness, planting trees, cleaning beaches, sitting with elders living with Alzheimer's.<br>I did it for so long that I earned the President's Volunteer Service Award more than once — but back then, I just went along because my parents asked me to.",
+    storyP1: "I've been volunteering for 8 years now, since before I started elementary school.<br>Making breakfast for people experiencing homelessness, planting trees, cleaning beaches, sitting with elders living with Alzheimer's.<br>I did it for so long that I earned the President's Volunteer Service Award more than once — but back then, I just went along because my parents asked me to.",
     storyP2: "But strangely, golf — the thing I'd done longest of all — was never like that.<br>Scores, rankings — same as any kid my age. In the end, every number pointed back to me, and I never once played for someone else.",
     storyP3: "When I became a high schooler, it started to bother me for the first time.<br>I'd already learned how to help others long ago, yet I'd never once brought that into the thing I'm best at.<br>So this time, not because someone told me to, I decided to find my own way.<br>Donating a set amount from my own allowance every time I make a birdie — that was the answer I found.",
     storyP4: "I asked my younger brother Jiseok to join me.<br>He's volunteered alongside me all this time, so he said yes without hesitation.<br>One brother on the green, the other right beside it — a project where we build one shared purpose, each in his own way. That's JJ Birdies.",
     pullQuote: '"Until now, I helped the world with my parents\' support. Now, I want to try doing it on my own."',
     photoCap1: 'When I first started golf',
     photoCap2: 'A record of service that began before elementary school',
+    yearTimelineT: 'Year by year',
     rulesH2: 'One birdie, one gift',
     ruleBirdieTitle: 'Birdie', ruleBirdieDesc: 'When I finish a hole one stroke under par, I share that moment of joy through a donation.', ruleBirdieAmt: '$10',
     ruleEagleTitle: 'Eagle & up', ruleEagleDesc: 'For rarer moments, I put in a little more heart — donating more than a birdie.', ruleEagleAmt: '$20',
@@ -534,13 +547,14 @@ var LANG = {
   zh: {
     heroPara: '每当我打出一个小鸟球，<br>我都会从自己的零花钱里捐出一笔钱。<br>这不是为了成绩的高尔夫，而是为了分享的高尔夫。<br>JJ Birdies 就是这样开始的。',
     storyH2: '高尔夫<br>教会我的事',
-    storyP1: '我从上小学之前就开始做志愿服务了。<br>为无家可归的人做早餐、植树、清理海滩、陪伴患有阿尔茨海默病的老人。<br>这件事我坚持了很久，甚至多次获得总统志愿服务奖——但那时候，只是因为父母让我去，我就跟着去了。',
+    storyP1: '我从上小学之前就开始做志愿服务了，到现在已经第8年。<br>为无家可归的人做早餐、植树、清理海滩、陪伴患有阿尔茨海默病的老人。<br>这件事我坚持了很久，甚至多次获得总统志愿服务奖——但那时候，只是因为父母让我去，我就跟着去了。',
     storyP2: '但奇怪的是，我坚持最久的高尔夫，却从来不是这样。<br>成绩、排名——和同龄人没什么两样。到头来，所有的数字都只指向我自己，我从没有为别人打过一场球。',
     storyP3: '上高中以后，这件事第一次让我心里过不去。<br>帮助别人的方法我早就学会了，可我最擅长的这件事里，却从没放进过这份心意。<br>于是这一次，不是因为有人让我做，我决定自己找一个办法。<br>每打出一个小鸟球，就从自己的零花钱里捐出一笔固定的钱——这就是我找到的答案。',
     storyP4: '我邀请了弟弟 Jiseok 一起加入。<br>他一直陪我做志愿服务，这次也毫不犹豫地答应了。<br>哥哥在球场上，弟弟在旁边——兄弟俩用各自的方式，共同实现同一份心意，这就是 JJ Birdies。',
     pullQuote: '"如果说以前是靠父母的帮助去帮助这个世界，那么现在，我想靠自己试一试。"',
     photoCap1: '刚开始打高尔夫的时候',
     photoCap2: '从上小学前就开始的志愿服务记录',
+    yearTimelineT: '逐年记录',
     rulesH2: '一个小鸟球，一份心意',
     ruleBirdieTitle: '小鸟球', ruleBirdieDesc: '在一个洞打出比标准杆少一杆的成绩时，我会用捐赠来分享那一刻的喜悦。', ruleBirdieAmt: '$10',
     ruleEagleTitle: '老鹰球以上', ruleEagleDesc: '在更特别的时刻，我会投入更多心意——捐出比小鸟球更多的金额。', ruleEagleAmt: '$20',
